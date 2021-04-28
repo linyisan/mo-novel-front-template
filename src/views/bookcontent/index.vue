@@ -91,5 +91,4 @@ export default {
 <style scoped>
   @import "~@/assets/css/base.css";
   @import "~@/assets/css/book.css";
-  @import "~@/assets/css/read.css";
 </style>

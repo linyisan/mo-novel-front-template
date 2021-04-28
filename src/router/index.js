@@ -62,7 +62,8 @@ export const constantRoutes = [
     redirect: '/book/bookcontent',
     children: [
       {
-        path: 'bookdetail',
+        path: 'bookdetail/:bookId',
+        name: 'MBookDetail',
         component: () => import('@/views/bookdetail/index'),
         meta: { title: '小说详情页', icon: 'el-icon-sunset' }
       },
@@ -70,6 +71,11 @@ export const constantRoutes = [
         path: 'bookcontent',
         component: () => import('@/views/bookcontent/index'),
         meta: { title: '小说内容页', icon: 'el-icon-sunset' }
+      },
+      {
+        path: 'bookstore',
+        component: () => import('@/views/bookstore/index'),
+        meta: { title: '书库', icon: 'el-icon-sunset' }
       }
     ]
   },

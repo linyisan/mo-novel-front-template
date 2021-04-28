@@ -12,8 +12,8 @@
       mode="horizontal"
     >
       <sidebar-item style="display: inline-block;" v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+      <!--头像 start-->
       <div class="right-menu">
-
         <el-dropdown class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
             <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
@@ -37,6 +37,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
+      <!--头像 end-->
     </el-menu>
   </div>
 </template>

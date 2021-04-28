@@ -1,110 +1,164 @@
 <template>
   <div>
-    <el-row type="flex" justify="center" class="bookdetail-layout-header">
-      <div class="bookdetail-layout-header-main">
-        <div class="book-info">
-          <div class="book-info-cover"><img
+    <div class="main box_center cf mb50">
+      <h1>当前bookId:{{ bookId }}</h1>
+      <div class="nav_sub">
+        > 武侠仙侠 > 闺蜜之主
+        <!--        <a href="/" th:text="${application.website.name}"></a>&gt;<a th:href="'/book/bookclass.html?c='+${book.catId}" th:text="${book.catName}"></a>&gt;<a-->
+        <!--        th:href="'/book/'+${book.id}+'.html'" th:utext="${book.bookName}"></a>-->
+      </div>
+      <div class="channelWrap channelBookInfo cf">
+        <div class="bookCover cf">
+          <a href="https://qidian.qpic.cn/qdbimg/349573/1010868264/300" class="book_cover"><img
+            class="cover"
             src="https://qidian.qpic.cn/qdbimg/349573/1010868264/300"
-            alt="小说封面"
-            style="width: 150px; height: 200px;"
-          ></div>
-          <div class="book-info-detail">
-            <h1 class="book-name">闺蜜之主</h1>
-            <p class="book-author"><a href="#">作者：爱潜水的乌贼</a></p>
-            <p class="book-word-cout">本书字数：446.5万字 </p>
-            <p class="book-status">
-              <span>更新时间：5 个月</span>
-              <span class="status" style="color: #de9763">•完结</span>
-            </p>
-            <div class="book-info-btns-wrap">
-              <el-button type="primary">立即阅读</el-button>
-              <el-dropdown>
-                <el-button>
-                  加入书架<i class="el-icon-arrow-down el-icon--right" />
-                </el-button>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>正在追读</el-dropdown-item>
-                  <el-dropdown-item>养肥待看</el-dropdown-item>
-                  <el-dropdown-item>已经看过</el-dropdown-item>
-                  <el-dropdown-item>不看屏蔽</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-              <el-button>收入书单</el-button>
-              <el-button>more</el-button>
+            alt="闺蜜之主"
+          ></a>
+          <div class="book_info">
+            <div class="tit">
+              <h1>闺蜜之主</h1><!--<i class="vip_b">VIP</i>-->
+              <a class="author">爱潜水的乌贼 著</a>
             </div>
-          </div>
-          <div class="book-info-footer">
-            <div class="tag" style="margin: 5px;">
-              <el-tag><a href="#">玄幻</a></el-tag>
-              <el-tag type="success"><a href="#">异世大陆</a></el-tag>
-              <el-tag type="info" closable>私人标签</el-tag>
-              <el-button size="mini">新建标签</el-button>
+            <ul class="list">
+              <li><span class="item">类别：<em v-text="武侠仙侠" /></span>
+                <span class="item">状态： 连载中</span>
+                <span class="item">总点击：<em id="cTotal" v-text="100" /></span>
+                <span class="item">总字数：<em v-text="2352651" /></span></li>
+            </ul>
+            <div class="intro_txt">
+              <p>蒸汽与机械的浪潮中，谁能触及非凡？历史和黑暗的迷雾里，又是谁在耳语？我从诡秘中醒来，睁眼看见这个世界：枪械，大炮，巨舰，飞空艇，差分机；魔药，占卜，诅咒，倒吊人，封印物……光明依旧照耀，神秘从未远离，这是一段“愚者”的传说。</p>
+              <a class="icon_hide" href="javascript:void(0)" onclick=""><i />收起</a>
+              <a class="icon_show" href="javascript:void(0)" onclick=""><i />展开</a>
+            </div>
+            <div id="optBtn" class="btns">
+              <a href="bookcontent" class="btn_ora">点击阅读</a>
+              <span id="cFavs"><a
+                href="javascript:void(0);"
+                class="btn_ora_white btn_addsj"
+                onclick="javascript:BookDetail.AddFavorites(37,0,0);"
+              >加入书架</a>
+              </span>
             </div>
           </div>
         </div>
       </div>
-      <div class="bookdeatil-layout-header-side">
-        <div class="book-score-overview"><h1 class="score">8.7</h1>
-          <p class="score-count">5647个评分</p></div>
-        <div class="book-score-charts">评分分布图表</div>
-        <div class="my-rating"><span>我的评分</span>
-          <el-rate :value="3" />
-        </div>
-      </div>
-    </el-row>
-    <el-row type="flex" justify="center" class="bookdetail-layout-main">
-      <div class="bookdetail-layout-main-left" style="margin-right: 40px;">
-        <el-collapse accordion>
-          <el-collapse-item title="简介" name="1">
-            蒸汽与机械的浪潮中，谁能触及非凡？历史和黑暗的迷雾里，又是谁在耳语？我从诡秘中醒来，睁眼看见这个世界：枪械，大炮，巨舰，飞空艇，差分机；魔药，占卜，诅咒，倒吊人，封印物……光明依旧照耀，神秘从未远离，这是一段“愚者”的传说。
-          </el-collapse-item>
-        </el-collapse>
 
-        <el-card>
-          <el-row type="flex" justify="space-between">
-            <span>
-              <a href="#">综合</a><el-divider direction="vertical" />
-              <a href="#">最新</a><el-divider direction="vertical" />
-              <a href="#">热度</a><el-divider direction="vertical" />
-              <a href="#">关注</a><el-divider direction="vertical" />
-            </span>
-            <el-link icon="el-icon-edit" underline href="#">发布评论</el-link>
-          </el-row>
-        </el-card>
+      <div class="channelBookContent cf">
+        <!--left start-->
+        <div class="wrap_left fl">
+          <div class="wrap_bg">
 
-        <div class="book-review">
-          <el-card v-for="n in 5" style="margin-top: 10px;">
-            <el-row class="book-review-ower" type="flex" justify="space-between">
-              <div class="ower-info">
-                <el-avatar style="display: inline-flex;">吃鸡</el-avatar>
-                <span style="margin-left: 5px">beesshp</span></div>
-              <div>
-                <el-rate :value="4" disabled />
+            <!--章节目录 start-->
+            <!--<div class="pad20_nobt">
+              <div class="bookChapter">
+                <div class="book_tit">
+                  <div class="fl">
+                    <h3>最新章节</h3><span id="bookIndexCount">(0章)</span></div>
+                  <a class="fr" th:href="'/book/indexList-'+${book.id}+'.html'">全部目录</a>
+                </div>
+                <ul class="list cf">
+                  <li>
+                    <span class="fl font16"> <a
+                      th:href="'/book/'+${book.id}+'/'+${book.lastIndexId}+'.html'"
+                      th:utext="${book.lastIndexName}"
+                    >&lt;!&ndash;<i class="vip">VIP</i>&ndash;&gt;</a></span>
+                    <span
+                      class="black9 fr"
+                      th:text="'更新时间：'+${#dates.format(book.lastIndexUpdateTime, 'yy/MM/dd HH:mm:ss')}"
+                    />
+                  </li>
+                  <li id="lastBookContent" class="zj_yl" />
+                  &lt;!&ndash;此处是该章节预览，截取最前面的42个字&ndash;&gt;
+                </ul>
               </div>
-            </el-row>
-            <div class="book-review-content">{{ n }}
-              吹过了，前期可以说是神作，后期直接崩掉。而且别拿克苏鲁来挡枪，后期打怪升级级流是个鬼的克苏鲁，克苏鲁是人类对未知原始的恐惧好吧。如果乌贼把蒸汽朋克或者维多利亚时代写好了那也行，但后期变成超级系了是什么鬼。（本来想给3星的，但这虚高的评分还是算了吧）
-            </div>
-            <div>发布于2021-04-11 13:21</div>
-            <div class="book-review-actions">
-              <el-button>👍</el-button>
-              <el-button>👎🏼</el-button>
-              <el-button>51个评论</el-button>
-              <el-button>more</el-button>
-            </div>
-          </el-card>
-        </div>
+            </div>-->
+            <!--章节目录 end-->
 
-        <pagination
-          v-show="total>0"
-          :total="total"
-          :page.sync="listQuery.page"
-          :limit.sync="listQuery.limit"
-          @pagination="getList"
-        />
+            <!--作品评论区 start-->
+            <div class="pad20">
+              <div class="bookComment">
+                <div class="book_tit">
+                  <div class="fl">
+                    <h3>作品评论区</h3><span id="bookCommentTotal">(0条)</span>
+                  </div>
+                  <a class="fr" href="#txtComment">发表评论</a>
+                </div>
+                <div id="noCommentPanel" class="no_comment" style="display: none;">
+                  <img src="/images/no_comment.png" alt="">
+                  <span class="block">暂无评论</span>
+                </div>
+                <div id="commentPanel" class="commentBar" />
+
+                <!--无评论时此处隐藏-->
+                <div id="moreCommentPanel" class="more_bar">
+                  <a href="'/book/comment-'+${book.id}+'.html'">查看全部评论&gt;</a>
+                </div>
+
+                <div id="reply_bar" class="reply_bar">
+                  <div class="tit">
+                    <span class="fl font16">发表评论</span>
+                    <!--未登录状态下不可发表评论，显示以下链接-->
+                    <span class="fr black9" style="display:none; ">请先 <a
+                      class="orange"
+                      href="/user/login.html"
+                    >登录</a><em
+                      class="ml10 mr10"
+                    >|</em><a
+                      class="orange"
+                      href="/user/register.html"
+                    >注册</a></span>
+                  </div>
+                  <textarea
+                    id="txtComment"
+                    name="txtComment"
+                    rows="2"
+                    cols="20"
+                    class="replay_text"
+                    placeholder="我来说两句..."
+                  />
+                  <div class="reply_btn">
+                    <span class="fl black9"><em id="emCommentNum" class="ml5">0/1000</em> 字</span>
+                    <span class="fr"><a
+                      class="btn_ora"
+                      href="javascript:void(0);"
+                      onclick="javascript:BookDetail.SaveComment(37,0,$('#txtComment').val());"
+                    >发表</a></span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <pagination />
+            <!--作品评论区 end-->
+
+          </div>
+        </div>
+        <!--left end-->
+
+        <!--right start-->
+        <div class="wrap_right fr">
+
+          <!--          <script src="/javascript/authorinfo.js?uid=8" type="text/javascript" />
+          <script type="text/javascript">
+            var authorUId = 8;
+            if (authorUId == 0) {
+            $("#authorPanel").hide();
+            } else {
+            }
+          </script>-->
+
+          <div id="RelateBookOther" class="wrap_inner wrap_right_cont mb20">
+            <div class="title cf">
+              <h3 class="on">同类推荐</h3>
+            </div>
+            <div class="tj_bar">
+              <ul id="recBookList" />
+            </div>
+          </div>
+        </div>
+        <!--right end-->
       </div>
-      <el-card class="bookdetail-layout-main-right hidden-sm-and-down" style="width: 220px;height: 360px;padding: 30px;"><h1>书单收录页</h1></el-card>
-    </el-row>
+    </div>
   </div>
 </template>
 
@@ -128,6 +182,9 @@ export default {
   computed: {
     routes() {
       return this.$router.options.routes
+    },
+    bookId() {
+      return this.$route.params.userId
     }
   },
   created() {
@@ -151,6 +208,10 @@ export default {
 </script>
 
 <style scoped>
+  @import "~@/assets/css/main.css";
+  @import "~@/assets/css/book.css";
+  @import "~@/assets/css/base.css";
+
   .bookdetail-layout-header {
 
   }
