@@ -7,14 +7,14 @@
       label="测试"
       @change="function(mvalue){changeEdu(mvalue);temp=mvalue;}"
     />
-    <p>{{ 'abac' | uppercaseFirst }}</p>
+    <p>{{ '2' | getDictLabel(eduOption) }}</p>
     <p>{{ dicts.sortMap }}</p>
   </div>
 </template>
 
 <script>
 import comment from '@/components/Comment'
-import dicts from '@/dicts'
+import { dicts, getDictLabel } from '@/dicts'
 import Filteritem from '@/components/Filteritem'
 import { fetchList } from '../../api/comment'
 
@@ -24,6 +24,7 @@ export default {
     Filteritem
   },
   filters: {
+    getDictLabel: getDictLabel,
     wordCountFilter(key) {
       const keyValue = this.wordCountMap.reduce((acc, cur) => {
         acc[cur.label] = cur.value

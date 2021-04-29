@@ -13,7 +13,7 @@ export default {
       }*/
     }
   },
-  /**/install(Vue) {
+/*  install(Vue) {
     var dictArr = this.dicts.dictArr // 所有数据字典
     for (var key in dictArr) {
       if (dictArr.hasOwnProperty(key)) { // key是字典唯一ID
@@ -25,7 +25,7 @@ export default {
         }(key))
       }
     }
-  }
+  }*/
 }
 </script>
 

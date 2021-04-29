@@ -1,5 +1,5 @@
 // 静态数据字典
-export default {
+var dicts = {
   categoryMap: [{ 'value': 1, 'label': '玄幻奇幻' }, { 'value': 3, 'label': '武侠仙侠' }, { 'value': 4, 'label': '都市言情'
   }, { 'value': 5, 'label': '历史军事' }, { 'value': 6, 'label': '科幻灵异' }, { 'value': 7, 'label': '网游竞技' }],
   channelMap: [{ label: '男频', value: '0' }, { label: '女频', value: '1' }],
@@ -20,4 +20,18 @@ export default {
     { label: '总字数', value: 'wordCount' },
     { label: '点击量', value: 'visitCount' }
   ]
+}
+
+export { dicts }
+
+function dictToFilter(dictName) {
+  return dicts[dictName].reduce((acc, cur) => {
+    acc[cur.value] = cur.label
+    return acc
+  }, {})
+}
+
+export function getDictLabel(value, dict) {
+  var rItem = dict.find(item => item.value == value)
+  return (rItem && rItem.label) || value
 }
