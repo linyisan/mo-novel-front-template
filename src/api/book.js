@@ -10,8 +10,7 @@ export function fetchList(query) {
 
 export function fetchBook(id) {
   return request({
-    url: '/book/detail',
-    method: 'get',
-    params: { id }
+    url: `http://localhost:8089/book/${id}`,
+    method: 'get'
   })
 }

@@ -1,12 +1,20 @@
 <template>
   <div>
     <comment :comments="commentData" />
-    <filteritem first-item-text="不限" :list="wordCountMap" label="测试" @change="function(mvalue){changeEdu(mvalue);temp=mvalue;}" />
+    <filteritem
+      first-item-text="不限"
+      :list="wordCountMap"
+      label="测试"
+      @change="function(mvalue){changeEdu(mvalue);temp=mvalue;}"
+    />
+    <p>{{ 'abac' | uppercaseFirst }}</p>
+    <p>{{ dicts.sortMap }}</p>
   </div>
 </template>
 
 <script>
 import comment from '@/components/Comment'
+import dicts from '@/dicts'
 import Filteritem from '@/components/Filteritem'
 import { fetchList } from '../../api/comment'
 
@@ -33,7 +41,8 @@ export default {
         { label: '50-100万字', value: JSON.stringify({ 'wordCountMin': 500000, 'wordCountMax': 1000000 }) },
         { label: '100万字以上', value: JSON.stringify({ 'wordCountMin': null, 'wordCountMax': 1000000 }) }
       ],
-      temp: null
+      temp: null,
+      dicts: dicts
     }
   },
   watch: {

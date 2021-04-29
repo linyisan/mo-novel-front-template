@@ -8,7 +8,7 @@
             <filteritem
               label="作品频道"
               first-item-text="不限"
-              :list="channelMap"
+              :list="dicts.channelMap"
               @change="function(mvalue){listQuery.channel=mvalue; handleFilter()}"
             />
             <!--            <span class="tit">作品频道：</span>
@@ -19,7 +19,7 @@
             <filteritem
               label="作品分类"
               first-item-text="不限"
-              :list="categoryMap"
+              :list="dicts.categoryMap"
               @change="function(mvalue){listQuery.categoryId=mvalue; handleFilter()}"
             />
             <!--            <span class="tit">作品分类：</span>
@@ -36,7 +36,7 @@
             <filteritem
               label="是否完结"
               first-item-text="不限"
-              :list="bookStatusMap"
+              :list="dicts.bookStatusMap"
               @change="function(mvalue){listQuery.bookStatus=mvalue; handleFilter()}"
             />
             <!--            <span class="tit">是否完结：</span>
@@ -45,7 +45,7 @@
             <a filter-value="1" href="javascript:search(1,20)" class="">已完结</a>-->
           </li>
           <li class="so_words">
-            <filteritem label="作品字数" first-item-text="不限" :list="wordCountMap" @change="mchange" />
+            <filteritem label="作品字数" first-item-text="不限" :list="dicts.wordCountMap" @change="mchange" />
             <!--            <span class="tit">作品字数：</span>
             <a href="javascript:search(1,20)" class="on">不限</a>
             <a filter-value-max="300000" href="javascript:search(1,20)" class="">30万字以下</a>
@@ -57,7 +57,7 @@
             <filteritem
               label="更新时间"
               first-item-text="不限"
-              :list="updatePeriodMap"
+              :list="dicts.updatePeriodMap"
               @change="function(mValue){listQuery.updatePeriodMap=mValue; handleFilter()}"
             />
             <!--            <span class="tit">更新时间：</span>
@@ -71,7 +71,7 @@
             <filteritem
               label="更新时间"
               first-item-text="不限"
-              :list="sortMap"
+              :list="dicts.sortMap"
               @change="function(mvalue){listQuery.sort=mvalue; handleFilter()}"
             />
             <!--            <span class="tit">排序方式：</span>
@@ -118,7 +118,7 @@
 
           <el-table-column label="书名">
             <template slot-scope="scope">
-              <router-link :to="{name: 'MBookDetail', params:{bookId: scope.row.id}}">{{ scope.row.title }}</router-link>
+              <router-link tag="a" target="_blank" :to="{name: 'MBookDetail', params:{bookId: scope.row.id}}">{{ scope.row.title }}</router-link>
             </template>
           </el-table-column>
 
@@ -148,8 +148,8 @@
 </template>
 
 <script>
+import dicts from '@/dicts'
 import { fetchList as bookfetchList } from '@/api/book'
-import { fetchList as categoryfetList } from '@/api/category'
 import Filteritem from '@/components/Filteritem'
 
 export default {
@@ -184,35 +184,17 @@ export default {
         updatePeriod: null,
         sort: null
       },
-      categoryMap: [],
-      channelMap: [{ label: '男频', value: '0' }, { label: '女频', value: '1' }],
-      bookStatusMap: [{ label: '连载中', value: '1' }, { label: '已完结', value: '2' }],
-      wordCountMap: [{ label: '30万字以下', value: JSON.stringify({ 'wordCountMin': 300000, 'wordCountMax': null }) },
-        { label: '30-50万字', value: JSON.stringify({ 'wordCountMin': 300000, 'wordCountMax': 500000 }) },
-        { label: '50-100万字', value: JSON.stringify({ 'wordCountMin': 500000, 'wordCountMax': 1000000 }) },
-        { label: '100万字以上', value: JSON.stringify({ 'wordCountMin': null, 'wordCountMax': 1000000 }) }
-      ],
-      updatePeriodMap: [
-        { label: '三日内', value: '3' },
-        { label: '七日内', value: '7' },
-        { label: '半月内', value: '15' },
-        { label: '一月内', value: '30' }
-      ],
-      sortMap: [
-        { label: '更新时间', value: 'updateTime' },
-        { label: '总字数', value: 'wordCount' },
-        { label: '点击量', value: 'visitCount' }
-      ]
+      dicts: dicts
     }
   },
   created() {
     this.fetchData()
-    categoryfetList().then(response => {
+    /*    categoryfetList().then(response => {
       this.categoryMap = []
       response.data.items.forEach(item => {
         this.categoryMap.push({ value: item.id, label: item.name })
       })
-    })
+    })*/
   },
   methods: {
     fetchData() {

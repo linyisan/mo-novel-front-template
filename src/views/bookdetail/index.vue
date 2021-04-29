@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <el-main v-if="book" v-loading="loading">
     <div class="main box_center cf mb50">
-      <h1>当前bookId:{{ bookId }}</h1>
+      <h1>当前bookId:{{ $route.params.bookId }}</h1>
       <div class="nav_sub">
-        > 武侠仙侠 > 闺蜜之主
+        > {{ book.categoryId }} > {{ book.title }}
         <!--        <a href="/" th:text="${application.website.name}"></a>&gt;<a th:href="'/book/bookclass.html?c='+${book.catId}" th:text="${book.catName}"></a>&gt;<a-->
         <!--        th:href="'/book/'+${book.id}+'.html'" th:utext="${book.bookName}"></a>-->
       </div>
@@ -16,20 +16,21 @@
           ></a>
           <div class="book_info">
             <div class="tit">
-              <h1>闺蜜之主</h1><!--<i class="vip_b">VIP</i>-->
-              <a class="author">爱潜水的乌贼 著</a>
+              <h1>{{ book.title }}</h1><!--<i class="vip_b">VIP</i>-->
+              <a class="author">{{ book.authorName }} 著</a>
             </div>
             <ul class="list">
-              <li><span class="item">类别：<em v-text="武侠仙侠" /></span>
-                <span class="item">状态： 连载中</span>
-                <span class="item">总点击：<em id="cTotal" v-text="100" /></span>
-                <span class="item">总字数：<em v-text="2352651" /></span></li>
+              <li><span class="item">类别：{{ book.categoryId }}</span>
+                <span class="item">状态： {{ book.status }}</span>
+                <span class="item">总点击：{{ book.visitCount }}</span>
+                <span class="item">总字数：{{ book.wordCount }}</span></li>
             </ul>
             <div class="intro_txt">
-              <p>蒸汽与机械的浪潮中，谁能触及非凡？历史和黑暗的迷雾里，又是谁在耳语？我从诡秘中醒来，睁眼看见这个世界：枪械，大炮，巨舰，飞空艇，差分机；魔药，占卜，诅咒，倒吊人，封印物……光明依旧照耀，神秘从未远离，这是一段“愚者”的传说。</p>
-              <a class="icon_hide" href="javascript:void(0)" onclick=""><i />收起</a>
-              <a class="icon_show" href="javascript:void(0)" onclick=""><i />展开</a>
-            </div>
+              <p>
+                {{ book.introduction }}
+                <a class="icon_hide" href="javascript:void(0)" onclick=""><i />收起</a>
+                <a class="icon_show" href="javascript:void(0)" onclick=""><i />展开</a>
+              </p></div>
             <div id="optBtn" class="btns">
               <a href="bookcontent" class="btn_ora">点击阅读</a>
               <span id="cFavs"><a
@@ -128,7 +129,7 @@
 
               </div>
             </div>
-            <pagination />
+            <!--            <pagination />-->
             <!--作品评论区 end-->
 
           </div>
@@ -159,36 +160,37 @@
         <!--right end-->
       </div>
     </div>
-  </div>
+  </el-main>
 </template>
 
 <script>
-import Pagination from '@/components/Pagination'
+// import Pagination from '@/components/Pagination'
+import { fetchBook } from '@/api/book'
 
 export default {
-  components: { Pagination },
+  // components: { Pagination },
   data() {
     return {
-      list: null,
-      total: 5,
-      listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 20,
-        sort: '+id'
-      }
+      loading: true,
+      book: null
     }
   },
   computed: {
-    routes() {
-      return this.$router.options.routes
-    },
     bookId() {
-      return this.$route.params.userId
+      return this.$route.params.bookId
     }
   },
   created() {
+    console.log(this.bookId)
+    if (!this.bookId || isNaN(Number(this.bookId))) {
+      this.$router.replace('/404')
+    }
+    this.loading = true
+    fetchBook(this.bookId).then(response => {
+      this.book = response.data
+    })
     this.getList()
+    this.loading = false
   },
   methods: {
     getList() {
