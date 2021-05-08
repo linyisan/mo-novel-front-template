@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function fetchList(query) {
   return request({
-    url: 'http://localhost:8089/category/list',
+    url: '/category/list',
     method: 'get',
     params: query
   })

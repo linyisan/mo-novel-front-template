@@ -3,7 +3,7 @@
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <!--    <sidebar />-->
     <head-navbar />
-    <div class="main-container" style="margin-left: 0">
+    <div class="main-container" style="margin-left: 0; margin-top: 10px;">
       <!--      <div :class="{'fixed-header':fixedHeader}">-->
       <!--        <navbar />-->
       <!--      </div>-->

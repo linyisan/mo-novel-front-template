@@ -112,7 +112,7 @@
           </el-table-column>
           <el-table-column label="类别">
             <template slot-scope="scope">
-              <span>{{ scope.row.categoryId }}</span>
+              [<span>{{ scope.row.categoryId | getDictLabel(dicts.categoryMap) }}</span>]
             </template>
           </el-table-column>
 
@@ -124,7 +124,7 @@
 
           <el-table-column label="最新章节">
             <template slot-scope="scope">
-              <span>第x章</span>
+              <span>第{{ scope.row.id }}章</span>
             </template>
           </el-table-column>
 
@@ -136,7 +136,7 @@
 
           <el-table-column label="字数">
             <template slot-scope="scope">
-              <span>{{ scope.row.wordCount }}</span>
+              <span>{{ scope.row.wordCount | numberFormatter }}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -148,24 +148,17 @@
 </template>
 
 <script>
-import dicts from '@/dicts'
-import { fetchList as bookfetchList } from '@/api/book'
+import { dicts, getDictLabel } from '@/dicts'
+import { searchBook as bookfetchList } from '@/api/book'
 import Filteritem from '@/components/Filteritem'
 
 export default {
   components: {
     Filteritem
   },
-  /*  filters: {
-      categoryFilter(value) {
-        // arr to obj, such as { CN : "China", US : "USA" }
-        const keyValue = this.categoryMap.reduce((acc, cur) => {
-          acc[cur.value] = cur.label
-          return acc
-        }, {})
-        return keyValue[value]
-      }
-    },*/
+  filters: {
+    getDictLabel: getDictLabel
+  },
   data() {
     return {
       list: null,

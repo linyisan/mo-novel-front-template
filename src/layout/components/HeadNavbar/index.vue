@@ -11,31 +11,42 @@
       :collapse-transition="false"
       mode="horizontal"
     >
-      <sidebar-item style="display: inline-block;" v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+      <sidebar-item v-for="route in routes" :key="route.path" style="display: inline-block;" :item="route" :base-path="route.path" />
       <!--头像 start-->
       <div class="right-menu">
-        <el-dropdown class="avatar-container" trigger="click">
+        <el-dropdown v-if="hasLogin" class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
             <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
             <i class="el-icon-caret-bottom" />
           </div>
           <el-dropdown-menu slot="dropdown" class="user-dropdown">
-            <router-link to="/">
+            <router-link :to="{name: 'UserInfo', params: {userId: id}}">
               <el-dropdown-item>
-                Home
+                {{ name }}
               </el-dropdown-item>
             </router-link>
-            <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-              <el-dropdown-item>Github</el-dropdown-item>
-            </a>
-            <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-              <el-dropdown-item>Docs</el-dropdown-item>
-            </a>
+            <router-link :to="{name: 'Bookshelf', params: {userId: id}}">
+              <el-dropdown-item divided>我的书架</el-dropdown-item>
+            </router-link>
+            <router-link :to="{name: 'Comment', params: {userId: id}}">
+              <el-dropdown-item>我的书评</el-dropdown-item>
+            </router-link>
+            <router-link :to="{name: 'Feedback', params: {userId: id}}">
+              <el-dropdown-item>我的反馈</el-dropdown-item>
+            </router-link>
+            <router-link :to="{name: 'Setting', params: {userId: id}}">
+              <el-dropdown-item divided>账号设置</el-dropdown-item>
+            </router-link>
             <el-dropdown-item divided @click.native="logout">
-              <span style="display:block;">Log Out</span>
+              <span style="display:block;">退出</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <span v-else>
+          <router-link to="/login" style="color: white">登录</router-link>
+          <el-divider direction="vertical" />
+          <router-link to="/register" style="color: white">注册</router-link>
+        </span>
       </div>
       <!--头像 end-->
     </el-menu>
@@ -53,8 +64,16 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'name',
+      'id',
+      'token'
     ]),
+    hasLogin() {
+      console.log(this.token)
+      if (this.token) return true
+      else return false
+    },
     routes() {
       return this.$router.options.routes
     },
@@ -80,7 +99,8 @@ export default {
   methods: {
     async logout() {
       await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      this.$router.push(this.$route.path)
+      // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
 }

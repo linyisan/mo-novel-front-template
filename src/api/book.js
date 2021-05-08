@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 
-export function fetchList(query) {
+export function searchBook(query) {
   return request({
-    url: 'http://localhost:8089/book/searchByPage',
+    url: '/book/search',
     method: 'get',
     params: query
   })
 }
 
-export function fetchBook(id) {
+export function getBook(id) {
   return request({
-    url: `http://localhost:8089/book/${id}`,
+    url: `/book/get/${id}`,
     method: 'get'
   })
 }

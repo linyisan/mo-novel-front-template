@@ -22,6 +22,7 @@ import Layout from '@/layout/index'
     icon: 'svg-name'/'el-icon-x' the icon show in the sidebar
     breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
     activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
+    requireAuth: true,           // 添加该字段，表示进入这个路由是需要登录的
   }
  */
 
@@ -46,13 +47,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
-    }]
+    redirect: '/book/bookstore'
   },
 
   {
@@ -90,6 +85,50 @@ export const constantRoutes = [
         component: () => import('@/views/test/index'),
         meta: { title: '测试页', icon: 'el-icon-sunset' }
       }]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    // meta: { requireAuth: true, title: '用户', icon: 'el-icon-sunset' },
+    redirect: '/user/:userId/info',
+    // hidden: true,
+    children: [
+      {
+        path: ':userId',
+        component: () => import('@/views/user'),
+        children: [
+          {
+            path: 'info',
+            name: 'UserInfo',
+            component: () => import('@/views/user/info'),
+            meta: { requireAuth: true, title: '个人中心' }
+          },
+          {
+            path: 'bookshelf',
+            name: 'Bookshelf',
+            component: () => import('@/views/user/bookshelf'),
+            meta: { requireAuth: true, title: '我的书架' }
+          },
+          {
+            path: 'comment',
+            name: 'Comment',
+            component: () => import('@/views/user/comment'),
+            meta: { requireAuth: true, title: '我的书评' }
+          },
+          {
+            path: 'feedback',
+            name: 'Feedback',
+            meta: { requireAuth: true, title: '我的反馈' }
+          },
+          {
+            path: 'setting',
+            name: 'Setting',
+            component: () => import('@/views/user/setting'),
+            meta: { requireAuth: true, title: '账号设置' }
+          }
+        ]
+      }
+    ]
   },
 
   {
@@ -182,17 +221,6 @@ export const constantRoutes = [
         component: () => import('@/views/nested/menu2/index'),
         name: 'Menu2',
         meta: { title: 'menu2' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
       }
     ]
   },

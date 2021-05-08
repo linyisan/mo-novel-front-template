@@ -3,25 +3,22 @@
     <div class="main box_center cf mb50">
       <h1>当前bookId:{{ $route.params.bookId }}</h1>
       <div class="nav_sub">
-        > {{ book.categoryId }} > {{ book.title }}
+        > {{ book.categoryId | getDictLabel(dicts.categoryMap) }} > {{ book.title }}
         <!--        <a href="/" th:text="${application.website.name}"></a>&gt;<a th:href="'/book/bookclass.html?c='+${book.catId}" th:text="${book.catName}"></a>&gt;<a-->
         <!--        th:href="'/book/'+${book.id}+'.html'" th:utext="${book.bookName}"></a>-->
       </div>
       <div class="channelWrap channelBookInfo cf">
         <div class="bookCover cf">
-          <a href="https://qidian.qpic.cn/qdbimg/349573/1010868264/300" class="book_cover"><img
-            class="cover"
-            src="https://qidian.qpic.cn/qdbimg/349573/1010868264/300"
-            alt="闺蜜之主"
-          ></a>
+          <a href="https://qidian.qpic.cn/qdbimg/349573/1010868264/300" class="book_cover">
+            <el-image class="cover" :src="book.cover" :alt="book.title" /></a>
           <div class="book_info">
             <div class="tit">
               <h1>{{ book.title }}</h1><!--<i class="vip_b">VIP</i>-->
               <a class="author">{{ book.authorName }} 著</a>
             </div>
             <ul class="list">
-              <li><span class="item">类别：{{ book.categoryId }}</span>
-                <span class="item">状态： {{ book.status }}</span>
+              <li><span class="item">类别：{{ book.categoryId | getDictLabel(dicts.categoryMap) }}</span>
+                <span class="item">状态： {{ book.status | getDictLabel(dicts.bookStatusMap) }}</span>
                 <span class="item">总点击：{{ book.visitCount }}</span>
                 <span class="item">总字数：{{ book.wordCount }}</span></li>
             </ul>
@@ -84,14 +81,14 @@
                   </div>
                   <a class="fr" href="#txtComment">发表评论</a>
                 </div>
-                <div id="noCommentPanel" class="no_comment" style="display: none;">
-                  <img src="/images/no_comment.png" alt="">
+                <div v-if="total<=0" id="noCommentPanel" class="no_comment"> <!--style="display: none;"-->
+                  <el-image :src="require('@/assets/images/no_comment.png')" />
                   <span class="block">暂无评论</span>
                 </div>
                 <div id="commentPanel" class="commentBar" />
 
                 <!--无评论时此处隐藏-->
-                <div id="moreCommentPanel" class="more_bar">
+                <div  v-if="total>0" id="moreCommentPanel" class="more_bar">
                   <a href="'/book/comment-'+${book.id}+'.html'">查看全部评论&gt;</a>
                 </div>
 
@@ -153,7 +150,21 @@
               <h3 class="on">同类推荐</h3>
             </div>
             <div class="tj_bar">
-              <ul id="recBookList" />
+              <ul id="recBookList">
+                <li v-for="book in recBookList" :key="book.id">
+                  <router-link tag="a" target="_blank" :to="{name: 'MBookDetail', params:{bookId: book.id}}">
+                    <div class="book_intro">
+                      <div class="cover">
+                        <img :src="book.cover" :alt="book.title">
+                      </div>
+                      <div class="dec">
+                        <span class="book_name">{{ book.title }}</span>
+                        <span href="#" class="txt">{{ book.introduction }}</span>
+                      </div>
+                    </div>
+                  </router-link>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -165,14 +176,22 @@
 
 <script>
 // import Pagination from '@/components/Pagination'
-import { fetchBook } from '@/api/book'
+import { getBook, searchBook } from '@/api/book'
+import { dicts, getDictLabel } from '@/dicts'
 
 export default {
+  filters: {
+    getDictLabel: getDictLabel
+  },
   // components: { Pagination },
   data() {
     return {
       loading: true,
-      book: null
+      book: null,
+      dicts: dicts,
+      recBookList: null,
+      commentReplyList: null,
+      total: 0
     }
   },
   computed: {
@@ -186,24 +205,17 @@ export default {
       this.$router.replace('/404')
     }
     this.loading = true
-    fetchBook(this.bookId).then(response => {
+    getBook(this.bookId).then(response => {
       this.book = response.data
+      this.getList()
     })
-    this.getList()
     this.loading = false
   },
   methods: {
     getList() {
-      this.listLoading = false
-      // fetchList(this.listQuery).then(response => {
-      //   this.list = response.data.items
-      //   this.total = response.data.total
-      //   // Just to simulate the time of the request
-      //   setTimeout(() => {
-      //     this.listLoading = false
-      //   }, 1.5 * 1000)
-      // })
-      // }
+      searchBook({ 'categoryId': this.book.categoryId }).then(response => {
+        this.recBookList = response.data.items
+      })
     }
   }
 }

@@ -6,7 +6,8 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    id: ''
   }
 }
 
@@ -24,6 +25,9 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_ID: (state, id) => {
+    state.id = id
   }
 }
 
@@ -53,10 +57,12 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar } = data
+        var { id, name, avatar } = data
+        if (!avatar) avatar = require('@/assets/images/man.png')
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_ID', id)
         resolve(data)
       }).catch(error => {
         reject(error)
