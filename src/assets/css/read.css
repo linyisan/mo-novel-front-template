@@ -1,7 +1,7 @@
 @charset "utf-8";
 a { color: #333 }
 a:hover, .redFont, .current, .bookNav a:hover, .textinfo a:hover { color: #f70 }
-.read_menu li a, .closePopup, .menu_left li a span, .menu_right li a span, .icon_check, .icon_yb { background: coral/*url(../images/icon_readpage.png)*/ no-repeat }
+.read_menu li a, .closePopup, .menu_left li a span, .menu_right li a span, .icon_check, .icon_yb { background: coral url(../images/icon_readpage.png) no-repeat }
 /* 阅读页背景 */
 body { /*background-color: #4a4a4a;*/ color: #333; font-family: "Microsoft YaHei" }
 .topMain { box-shadow: 0 1px 4px rgba(0,0,0,.1); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#66ffffff,endColorstr=#66ffffff); background: none; background: rgba(255,255,255,.4) }

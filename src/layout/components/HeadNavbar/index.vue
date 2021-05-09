@@ -70,7 +70,7 @@ export default {
       'token'
     ]),
     hasLogin() {
-      console.log(this.token)
+      // console.log(this.token)
       if (this.token) return true
       else return false
     },

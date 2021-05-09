@@ -2,14 +2,14 @@ import request from '@/utils/request'
 
 export function getBookshelf(id) {
   return request({
-    url: `/get/${id}`,
+    url: `/bookshelf/get/${id}`,
     method: 'get'
   })
 }
 
 export function searchBookshelf(query) {
   return request({
-    url: '/search',
+    url: '/bookshelf/search',
     method: 'get',
     params: query
   })
@@ -17,7 +17,7 @@ export function searchBookshelf(query) {
 
 export function addBookshelf(data) {
   return request({
-    url: '/add',
+    url: '/bookshelf/add',
     method: 'post',
     data: data
   })
@@ -25,7 +25,7 @@ export function addBookshelf(data) {
 
 export function editBookshelf(data) {
   return request({
-    url: '/edit',
+    url: '/bookshelf/edit',
     method: 'post',
     data: data
   })
@@ -33,7 +33,7 @@ export function editBookshelf(data) {
 
 export function deleteBookshelf(id) {
   return request({
-    url: `/delete/${id}`,
+    url: `/bookshelf/delete/${id}`,
     method: 'get'
   })
 }

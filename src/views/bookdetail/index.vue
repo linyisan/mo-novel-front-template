@@ -30,12 +30,15 @@
               </p></div>
             <div id="optBtn" class="btns">
               <a href="bookcontent" class="btn_ora">点击阅读</a>
-              <span id="cFavs"><a
-                href="javascript:void(0);"
-                class="btn_ora_white btn_addsj"
-                onclick="javascript:BookDetail.AddFavorites(37,0,0);"
-              >加入书架</a>
-              </span>
+              <el-dropdown trigger="click" @command="handleReadingProcess">
+                <el-button ref="btn_addBookShelf" type="primary" round>
+                  加入书架<i class="el-icon-arrow-down el-icon--right" />
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item v-for="item in dicts.readingProcess" :key="item.value" :command="item.value">{{ item.label }}</el-dropdown-item>
+                  <el-dropdown-item v-show="bookshelf.readingProcess>0" key="4" :command="4" divided>取消收藏</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
           </div>
         </div>
@@ -47,86 +50,11 @@
           <div class="wrap_bg">
 
             <!--章节目录 start-->
-            <!--<div class="pad20_nobt">
-              <div class="bookChapter">
-                <div class="book_tit">
-                  <div class="fl">
-                    <h3>最新章节</h3><span id="bookIndexCount">(0章)</span></div>
-                  <a class="fr" th:href="'/book/indexList-'+${book.id}+'.html'">全部目录</a>
-                </div>
-                <ul class="list cf">
-                  <li>
-                    <span class="fl font16"> <a
-                      th:href="'/book/'+${book.id}+'/'+${book.lastIndexId}+'.html'"
-                      th:utext="${book.lastIndexName}"
-                    >&lt;!&ndash;<i class="vip">VIP</i>&ndash;&gt;</a></span>
-                    <span
-                      class="black9 fr"
-                      th:text="'更新时间：'+${#dates.format(book.lastIndexUpdateTime, 'yy/MM/dd HH:mm:ss')}"
-                    />
-                  </li>
-                  <li id="lastBookContent" class="zj_yl" />
-                  &lt;!&ndash;此处是该章节预览，截取最前面的42个字&ndash;&gt;
-                </ul>
-              </div>
-            </div>-->
+            <router-link :to="{name: 'BookIndex', params:{bookId: bookId}}">最新章节</router-link>
             <!--章节目录 end-->
 
             <!--作品评论区 start-->
-            <div class="pad20">
-              <div class="bookComment">
-                <div class="book_tit">
-                  <div class="fl">
-                    <h3>作品评论区</h3><span id="bookCommentTotal">(0条)</span>
-                  </div>
-                  <a class="fr" href="#txtComment">发表评论</a>
-                </div>
-                <div v-if="total<=0" id="noCommentPanel" class="no_comment"> <!--style="display: none;"-->
-                  <el-image :src="require('@/assets/images/no_comment.png')" />
-                  <span class="block">暂无评论</span>
-                </div>
-                <div id="commentPanel" class="commentBar" />
-
-                <!--无评论时此处隐藏-->
-                <div  v-if="total>0" id="moreCommentPanel" class="more_bar">
-                  <a href="'/book/comment-'+${book.id}+'.html'">查看全部评论&gt;</a>
-                </div>
-
-                <div id="reply_bar" class="reply_bar">
-                  <div class="tit">
-                    <span class="fl font16">发表评论</span>
-                    <!--未登录状态下不可发表评论，显示以下链接-->
-                    <span class="fr black9" style="display:none; ">请先 <a
-                      class="orange"
-                      href="/user/login.html"
-                    >登录</a><em
-                      class="ml10 mr10"
-                    >|</em><a
-                      class="orange"
-                      href="/user/register.html"
-                    >注册</a></span>
-                  </div>
-                  <textarea
-                    id="txtComment"
-                    name="txtComment"
-                    rows="2"
-                    cols="20"
-                    class="replay_text"
-                    placeholder="我来说两句..."
-                  />
-                  <div class="reply_btn">
-                    <span class="fl black9"><em id="emCommentNum" class="ml5">0/1000</em> 字</span>
-                    <span class="fr"><a
-                      class="btn_ora"
-                      href="javascript:void(0);"
-                      onclick="javascript:BookDetail.SaveComment(37,0,$('#txtComment').val());"
-                    >发表</a></span>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <!--            <pagination />-->
+            <BookComment />
             <!--作品评论区 end-->
 
           </div>
@@ -152,7 +80,7 @@
             <div class="tj_bar">
               <ul id="recBookList">
                 <li v-for="book in recBookList" :key="book.id">
-                  <router-link tag="a" target="_blank" :to="{name: 'MBookDetail', params:{bookId: book.id}}">
+                  <router-link tag="a" target="_blank" :to="{name: 'BookDetail', params:{bookId: book.id}}">
                     <div class="book_intro">
                       <div class="cover">
                         <img :src="book.cover" :alt="book.title">
@@ -177,18 +105,22 @@
 <script>
 // import Pagination from '@/components/Pagination'
 import { getBook, searchBook } from '@/api/book'
+import { searchBookshelf, addBookshelf, editBookshelf, deleteBookshelf } from '@/api/bookshelf'
 import { dicts, getDictLabel } from '@/dicts'
+import BookComment from './BookComment'
+import { mapGetters } from 'vuex'
 
 export default {
   filters: {
     getDictLabel: getDictLabel
   },
-  // components: { Pagination },
+  components: { BookComment },
   data() {
     return {
       loading: true,
       book: null,
-      dicts: dicts,
+      bookshelf: {},
+      dicts,
       recBookList: null,
       commentReplyList: null,
       total: 0
@@ -197,7 +129,11 @@ export default {
   computed: {
     bookId() {
       return this.$route.params.bookId
-    }
+    },
+    ...mapGetters([
+      'id',
+      'token'
+    ])
   },
   created() {
     console.log(this.bookId)
@@ -213,9 +149,30 @@ export default {
   },
   methods: {
     getList() {
-      searchBook({ 'categoryId': this.book.categoryId }).then(response => {
+      searchBook({ categoryId: this.book.categoryId }).then(response => {
         this.recBookList = response.data.items
       })
+      searchBookshelf({ userId: this.id, bookId: this.bookId }).then(response => {
+        const bookshelf = response.data.items[0]
+        this.bookshelf = Object.assign({}, bookshelf)
+        this.bookshelf.readingProcess = bookshelf ? bookshelf.readingProcess : 0
+        if (this.bookshelf.readingProcess < 1) this.$refs['btn_addBookShelf'].$el.innerText = '加入书架'
+        else this.$refs['btn_addBookShelf'].$el.innerText = getDictLabel(this.bookshelf.readingProcess, dicts.readingProcess)
+      })
+    },
+    handleReadingProcess(command) {
+      console.log('handleReadingProcess', command)
+      delete this.bookshelf.createTime
+      delete this.bookshelf.updateTime
+      delete this.bookshelf.book
+
+      this.bookshelf.readingProcess = command
+      this.bookshelf.bookId = this.bookId
+      this.bookshelf.userId = this.id
+      if (!this.bookshelf.id) addBookshelf(this.bookshelf)
+      else if (command === 4) deleteBookshelf(this.bookshelf.id)
+      else editBookshelf(this.bookshelf)
+      this.getList()
     }
   }
 }

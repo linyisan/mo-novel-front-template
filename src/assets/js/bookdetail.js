@@ -1,5 +1,5 @@
 ﻿var BookDetail = {
-  wepDomain: 'java2nb.com',
+  wepDomain: 'heng.com',
   msgStyle: 'background-color:#333; color:#fff; text-align:center; border:none; font-size:20px; padding:10px;',
   reShowCover: function () {
     //$(".cCover").height($(".cDetail").height());
@@ -305,3 +305,5 @@ var rand = {};
 rand.get = function (begin, end) {
   return Math.floor(Math.random() * (end - begin)) + begin;
 }
+
+export default BookDetail

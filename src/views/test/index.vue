@@ -9,6 +9,7 @@
     />
     <p>{{ '2' | getDictLabel(eduOption) }}</p>
     <p>{{ dicts.sortMap }}</p>
+    <reading-setting />
   </div>
 </template>
 
@@ -17,9 +18,11 @@ import comment from '@/components/Comment'
 import { dicts, getDictLabel } from '@/dicts'
 import Filteritem from '@/components/Filteritem'
 import { fetchList } from '../../api/comment'
+import ReadingSetting from '@/views/bookcontent/components/ReadingSetting'
 
 export default {
   components: {
+    ReadingSetting,
     comment,
     Filteritem
   },

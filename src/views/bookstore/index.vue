@@ -118,7 +118,7 @@
 
           <el-table-column label="书名">
             <template slot-scope="scope">
-              <router-link tag="a" target="_blank" :to="{name: 'MBookDetail', params:{bookId: scope.row.id}}">{{ scope.row.title }}</router-link>
+              <router-link tag="a" target="_blank" :to="{name: 'BookDetail', params:{bookId: scope.row.id}}">{{ scope.row.title }}</router-link>
             </template>
           </el-table-column>
 
