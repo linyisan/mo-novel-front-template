@@ -7,6 +7,7 @@ const getters = {
   id: state => state.user.id,
   // LJohn [打造一款适合自己的快速开发框架-前端篇之字典组件设计与实现](https://juejin.cn/post/6844904198539395079)
   // 这里追加dictMap的get方法，可以使用mapGetters，详见src/components/m/Dict/index.vue
-  dictMap: state => state.dict.dictMap
+  dictMap: state => state.dict.dictMap,
+  readingSetting: state => state.readingSetting
 }
 export default getters

@@ -5,7 +5,8 @@ import app from './modules/app'
 import settings from './modules/settings'
 import user from './modules/user'
 // LJohn [打造一款适合自己的快速开发框架-前端篇之字典组件设计与实现](https://juejin.cn/post/6844904198539395079)
-import dict from '@/store/modules/dict'
+import dict from './modules/dict'
+import readingSetting from './modules/readingSetting'
 
 // LJohn [打造一款适合自己的快速开发框架-前端篇之字典组件设计与实现](https://juejin.cn/post/6844904198539395079)
 // 自动注册vuex模块
@@ -25,7 +26,8 @@ const store = new Vuex.Store({
     app,
     settings,
     user,
-    dict
+    dict,
+    readingSetting
   },
   getters
 })

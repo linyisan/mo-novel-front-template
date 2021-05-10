@@ -140,7 +140,7 @@
   },
   AddAgreeTotal: function (AId, objs) {
   },
-  RelationBook: function () {
+/*  RelationBook: function () {
     relationStep++;
     var bListCount = 0;
     var bList = $("#relationBookList div");
@@ -162,7 +162,7 @@
         bList[i].style.display = "none";
       }
     }
-  },
+  },*/
   Click: function (bId) {
     //BookDetail.DescriptionMore("");
   },

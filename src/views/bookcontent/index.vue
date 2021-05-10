@@ -1,5 +1,5 @@
 <template>
-  <div class="read_style_1" oncontextmenu="return false" onselectstart="return false">
+  <div :class="'read_style_' + readingSetting.readStyleId" oncontextmenu="return false" onselectstart="return false">
     <div class="readBody cf">
       <div class="readMain cf">
         <div class="read_menu">
@@ -13,7 +13,7 @@
 
               <li><a class="ico_comment" href="/book/comment-1382646040489963520.html" title="评论">
                 <b>评论</b></a></li>
-              <li><a class="ico_setup" href="javascript:void(0);" title="设置"><b>设置</b></a></li>
+              <li><a class="ico_setup" title="设置" @click="handleSetting"><b>设置</b></a></li>
             </ul>
           </div>
           <div class="menu_right" style="position: fixed; bottom: 0">
@@ -55,7 +55,7 @@
                 <div
                   id="showReading"
                   class="readBox"
-                  style="font-size: 16px; font-family: microsoft yahei"
+                  :style="{fontFamily: readingSetting.fontFamily, fontSize: readingSetting.fontSize + 'px'}"
                   v-html="bookIndex.content"
                 />
 
@@ -75,17 +75,19 @@
         </div>
       </div>
     </div>
+    <reading-setting :visible.sync="dialogFormVisible" :temp-form-data="readingSetting" />
   </div>
 </template>
 
 <script>
-import { BookDetail } from '@/assets/js/bookdetail'
-// import BookDetail from 'src/assets/js/bookdetail.js'
 import { dicts, getDictLabel } from '@/dicts'
 import { getBookIndex } from '@/api/bookIndex'
 import { getBook } from '@/api/book'
+import ReadingSetting from '@/views/bookcontent/components/ReadingSetting'
+import { mapGetters } from 'vuex'
 
 export default {
+  components: { ReadingSetting },
   filters: {
     getDictLabel: getDictLabel
   },
@@ -99,6 +101,8 @@ export default {
       preIndexId: null, // preBookIndexId 上一章节ID
       nextIndexId: null, // nextBookIndexId 下一章节ID
 
+      dialogFormVisible: false,
+
       listLoading: true,
       listQuery: {
         bookId: this.$route.params.bookId,
@@ -107,6 +111,11 @@ export default {
       bookIndex: {},
       dicts
     }
+  },
+  computed: {
+    ...mapGetters([
+      'readingSetting'
+    ])
   },
   created() {
     this.init()
@@ -131,10 +140,7 @@ export default {
       })
     },
     handleSetting() {
-
-    },
-    setReading() {
-      // BookDetail.SetBackUpColor
+      this.dialogFormVisible = true
     }
   }
 }
