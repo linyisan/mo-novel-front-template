@@ -53,29 +53,32 @@ export const constantRoutes = [
   {
     path: '/book',
     component: Layout,
-    meta: { title: '小说管理', icon: 'dashboard' },
     redirect: '/book/bookcontent',
     children: [
       {
         path: 'bookdetail/:bookId',
         name: 'BookDetail',
+        hidden: true,
         component: () => import('@/views/bookdetail/index'),
         meta: { title: '小说详情页', icon: 'el-icon-sunset' }
       },
       {
         path: 'bookcontent/:bookId/:bookIndexId',
         name: 'BookContent',
+        hidden: true,
         component: () => import('@/views/bookcontent/index'),
         meta: { title: '小说内容页', icon: 'el-icon-sunset' }
       },
       {
         path: 'bookstore',
+        name: 'BookStore',
         component: () => import('@/views/bookstore/index'),
         meta: { title: '书库', icon: 'el-icon-sunset' }
       },
       {
         path: 'bookindex/:bookId',
         name: 'BookIndex',
+        hidden: true,
         component: () => import('@/views/bookindex/index'),
         meta: { title: '小说目录' }
       }
@@ -98,7 +101,7 @@ export const constantRoutes = [
     component: Layout,
     // meta: { requireAuth: true, title: '用户', icon: 'el-icon-sunset' },
     redirect: '/user/:userId/info',
-    // hidden: true,
+    hidden: true,
     children: [
       {
         path: ':userId',
@@ -173,72 +176,22 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
-
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+  mode: 'history', // require service support
+  // scrollBehavior: () => ({ y: 0 }),
+  // LJohn 锚点
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        selector: to.hash,
+        behavior: 'smooth'
+      }
+    }
+  },
   routes: constantRoutes
 })
 

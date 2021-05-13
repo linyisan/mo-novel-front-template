@@ -1,6 +1,6 @@
 @charset "utf-8";
 a { color: #333 }
-a:hover, .redFont, .current, .bookNav a:hover, .textinfo a:hover { color: #f70 }
+/*a:hover, .redFont, .current, .bookNav a:hover, .textinfo a:hover { color: #f70 }*/
 .read_menu li a, .closePopup, .menu_left li a span, .menu_right li a span, .icon_check, .icon_yb { background: coral url(../images/icon_readpage.png) no-repeat }
 /* 阅读页背景 */
 body { /*background-color: #4a4a4a;*/ color: #333; font-family: "Microsoft YaHei" }
@@ -96,7 +96,7 @@ body, .read_style_1 { background-color: #ebe5d8 }
 /* 目录 */
 .dirList { overflow: hidden; *zoom:1
 }
-.dirList li { float: left; width: 40%; padding-left: 26px; height: 40px; line-height: 40px; overflow: hidden; margin-right: 20px; *zoom:1
+.dirList li { float: left; /*width: 40%;*/ padding-left: 26px; height: 40px; line-height: 40px; overflow: hidden; margin-right: 20px; *zoom:1
 }
 .dirList li a { float: left; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width: 220px }
 /* 加书架 */

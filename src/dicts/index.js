@@ -5,10 +5,10 @@ var dicts = {
   }, { value: 5, label: '历史军事' }, { value: 6, label: '科幻灵异' }, { value: 7, label: '网游竞技' }],
   channelMap: [{ label: '男频', value: '0' }, { label: '女频', value: '1' }],
   bookStatusMap: [{ label: '连载中', value: '1' }, { label: '已完结', value: '2' }],
-  wordCountMap: [{ label: '30万字以下', value: JSON.stringify({ 'wordCountMin': 300000, 'wordCountMax': null }) },
+  wordCountMap: [{ label: '30万字以下', value: JSON.stringify({ 'wordCountMin': null, 'wordCountMax': 300000 }) },
     { label: '30-50万字', value: JSON.stringify({ 'wordCountMin': 300000, 'wordCountMax': 500000 }) },
     { label: '50-100万字', value: JSON.stringify({ 'wordCountMin': 500000, 'wordCountMax': 1000000 }) },
-    { label: '100万字以上', value: JSON.stringify({ 'wordCountMin': null, 'wordCountMax': 1000000 }) }
+    { label: '100万字以上', value: JSON.stringify({ 'wordCountMin': 1000000, 'wordCountMax': null }) }
   ],
   updatePeriodMap: [
     { label: '三日内', value: '3' },

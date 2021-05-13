@@ -3,7 +3,8 @@ import Cookies from 'js-cookie'
 const key = 'readingSetting'
 
 export function getReadingSetting() {
-  const result = JSON.parse(Cookies.get(key))
+  let result = Cookies.get(key)
+  if (result) result = JSON.parse(result)
   // const result = JSON.parse(localStorage.getItem(key))
   return result
 }

@@ -88,7 +88,7 @@
 
     <!--小说展示区 start-->
     <div class="channelWrap channelClassContent cf">
-      <div class="updateTable rankTable">
+      <div class="rankTable">
         <!--        <table cellpadding="0" cellspacing="0">
           <thead>
             <tr>
@@ -104,37 +104,38 @@
         </table>-->
 
         <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-          <el-table-column label="序号">
+          <el-table-column label="序号" align="center" width="65px">
             <template slot-scope="scope">
               <!--              <span class="rank">{{ scope.row.id }}</span>-->
               <el-tag type="info">{{ scope.row.id }}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="类别">
+          <el-table-column label="类别" align="center" width="100px">
             <template slot-scope="scope">
               [<span>{{ scope.row.categoryId | getDictLabel(dicts.categoryMap) }}</span>]
             </template>
           </el-table-column>
 
-          <el-table-column label="书名">
+          <el-table-column label="书名" align="center">
             <template slot-scope="scope">
               <router-link tag="a" target="_blank" :to="{name: 'BookDetail', params:{bookId: scope.row.id}}">{{ scope.row.title }}</router-link>
             </template>
           </el-table-column>
 
-          <el-table-column label="最新章节">
+          <el-table-column label="最新章节" align="center">
             <template slot-scope="scope">
-              <span>第{{ scope.row.id }}章</span>
+              <router-link v-if="scope.row.lastBookIndex!=null" target="_blank" :to="{name: 'BookContent', params: {bookId: scope.row.id, bookIndexId: scope.row.lastBookIndex.id}}">{{ scope.row.lastBookIndex.title }}</router-link>
+              <span v-else>无</span>
             </template>
           </el-table-column>
 
-          <el-table-column label="作者">
+          <el-table-column label="作者" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.authorName }}</span>
             </template>
           </el-table-column>
 
-          <el-table-column label="字数">
+          <el-table-column label="字数" align="center" width="75px">
             <template slot-scope="scope">
               <span>{{ scope.row.wordCount | numberFormatter }}</span>
             </template>
@@ -207,6 +208,10 @@ export default {
     },
     handleFilter() {
       this.listQuery.page = 1
+      /*      this.$router.push({
+        name: 'BookStore',
+        query: this.listQuery
+      })*/
       this.fetchData()
     },
     mchange(mvalue) {
@@ -218,13 +223,13 @@ export default {
         this.listQuery.wordCountMin = obj_mvalue ? obj_mvalue.wordCountMin : null
         this.listQuery.wordCountMax = obj_mvalue ? obj_mvalue.wordCountMax : null
       }
-      this.handleFilter
+      this.handleFilter()
     }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   @import "~@/assets/css/main.css";
   @import "~@/assets/css/base.css";
 </style>

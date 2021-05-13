@@ -33,14 +33,6 @@
                 <router-link :to="{name: 'BookContent', params: {bookId: item.bookId, bookIndexId: item.id}}">{{ item.title }}</router-link>
               </li>
             </ul>
-            <!--                <ul th:each="bookIndex : ${bookIndexList}">
-                  <li><a th:if="${bookIndex.isVip} != '1'" th:href="'/book/'+${book.id}+'/'+${bookIndex.id}+'.html'">
-                    <span th:utext="${bookIndex.indexName}"></span><i class="red"> [免费]</i>
-                  </a>
-                    <a th:if="${bookIndex.isVip} == '1'" th:href="'/book/'+${book.id}+'/'+${bookIndex.id}+'.html'"
-                       th:utext="${bookIndex.indexName}">
-                    </a></li>
-                </ul>-->
           </div>
         </div>
       </div>

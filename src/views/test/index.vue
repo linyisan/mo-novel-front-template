@@ -1,6 +1,6 @@
 <template>
   <div>
-    <comment :comments="commentData" />
+    <!--    <comment :comments="commentData" />-->
     <filteritem
       first-item-text="不限"
       :list="wordCountMap"
@@ -9,21 +9,18 @@
     />
     <p>{{ '2' | getDictLabel(eduOption) }}</p>
     <p>{{ dicts.sortMap }}</p>
-    <reading-setting />
   </div>
 </template>
 
 <script>
-import comment from '@/components/Comment'
+// import comment from '@/components/Comment'
 import { dicts, getDictLabel } from '@/dicts'
 import Filteritem from '@/components/Filteritem'
-import { fetchList } from '../../api/comment'
-import ReadingSetting from '@/views/bookcontent/components/ReadingSetting'
+import { searchBookComment } from '@/api/comment'
 
 export default {
   components: {
-    ReadingSetting,
-    comment,
+    // comment,
     Filteritem
   },
   filters: {
@@ -59,8 +56,8 @@ export default {
   },
   methods: {
     getList() {
-      fetchList().then(response => {
-        this.commentData = response.data
+      searchBookComment(null).then(response => {
+        this.commentData = response.data.items
       })
     },
     changeEdu(value) {

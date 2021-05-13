@@ -1,7 +1,7 @@
 <template>
   <el-main v-if="book" v-loading="loading">
     <div class="main box_center cf mb50">
-      <h1>当前bookId:{{ $route.params.bookId }}</h1>
+<!--      <h1>当前bookId:{{ $route.params.bookId }}</h1>-->
       <div class="nav_sub">
         > {{ book.categoryId | getDictLabel(dicts.categoryMap) }} > {{ book.title }}
         <!--        <a href="/" th:text="${application.website.name}"></a>&gt;<a th:href="'/book/bookclass.html?c='+${book.catId}" th:text="${book.catName}"></a>&gt;<a-->
@@ -50,11 +50,31 @@
           <div class="wrap_bg">
 
             <!--章节目录 start-->
-            <router-link :to="{name: 'BookIndex', params:{bookId: bookId}}">最新章节</router-link>
+            <div v-if="book.lastBookIndex!=null" class="pad20_nobt">
+              <div class="bookChapter">
+                <div class="book_tit">
+                  <div class="fl">
+                    <h3>最新章节</h3><span id="bookIndexCount"></span></div>
+                  <router-link class="fr" :to="{name: 'BookIndex', params:{bookId: bookId}}">全部目录</router-link>
+                </div>
+                <ul class="list cf">
+                  <li>
+                    <span class="fl font16">
+                      <router-link v-if="book.lastBookIndex!=null" target="_blank" :to="{name: 'BookContent', params: {bookId: book.id, bookIndexId: book.lastBookIndex.id}}">{{ book.lastBookIndex.title }}</router-link>
+                      <span v-else>无</span>
+                    </span>
+                    <span class="black9 fr">更新时间：{{ book.lastBookIndex.createTime }}</span>
+                  </li>
+                  <li id="lastBookContent" class="zj_yl" />
+                  <!--此处是该章节预览，截取最前面的42个字-->
+                </ul>
+              </div>
+            </div>
             <!--章节目录 end-->
 
             <!--作品评论区 start-->
-            <BookComment />
+            <BookComment :book-id="bookId" />
+            <!--            <book-comment2/>-->
             <!--作品评论区 end-->
 
           </div>
@@ -108,13 +128,14 @@ import { getBook, searchBook } from '@/api/book'
 import { searchBookshelf, addBookshelf, editBookshelf, deleteBookshelf } from '@/api/bookshelf'
 import { dicts, getDictLabel } from '@/dicts'
 import BookComment from './BookComment'
+import BookComment2 from './BookComment2'
 import { mapGetters } from 'vuex'
 
 export default {
   filters: {
     getDictLabel: getDictLabel
   },
-  components: { BookComment },
+  components: { BookComment, BookComment2 },
   data() {
     return {
       loading: true,

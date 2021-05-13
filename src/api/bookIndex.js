@@ -7,6 +7,19 @@ export function getBookIndex(id) {
   })
 }
 
+export function getPreBookIndex(id) {
+  return request({
+    url: `/bookindex/getPre/${id}`,
+    method: 'get'
+  })
+}
+export function getNextBookIndex(id) {
+  return request({
+    url: `/bookindex/getNext/${id}`,
+    method: 'get'
+  })
+}
+
 export function searchBookIndex(query) {
   return request({
     url: '/bookindex/search',
