@@ -1,5 +1,6 @@
 // 静态数据字典
 var dicts = {
+  sexMap: [{ value: '0', label: '男' }, { value: '1', label: '女' }],
   readingProcess: [{ value: 1, label: '正在追看' }, { value: 2, label: '养肥待读' }, { value: 3, label: '已经看过' }],
   categoryMap: [{ value: 1, label: '玄幻奇幻' }, { value: 3, label: '武侠仙侠' }, { value: 4, label: '都市言情'
   }, { value: 5, label: '历史军事' }, { value: 6, label: '科幻灵异' }, { value: 7, label: '网游竞技' }],

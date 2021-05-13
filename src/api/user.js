@@ -22,6 +22,13 @@ export function logout() {
     method: 'get'
   })
 }
+export function updatePwd(data) {
+  return request({
+    url: '/auth/updatePwd',
+    method: 'post',
+    data: data
+  })
+}
 
 export function getCodeImg() {
   return request({
@@ -33,6 +40,21 @@ export function getCodeImg() {
 export function register(data) {
   return request({
     url: '/auth/register',
+    method: 'post',
+    data: data
+  })
+}
+
+export function getUser(id) {
+  return request({
+    url: `/user/get/${id}`,
+    method: 'get'
+  })
+}
+
+export function editUser(data) {
+  return request({
+    url: '/user/edit',
     method: 'post',
     data: data
   })

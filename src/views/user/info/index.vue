@@ -1,57 +1,77 @@
 <template>
-  <div>
-    <div class="my_info cf">
-      <img id="imgLogo" class="user_big_head" :src="avatar">
-      <div class="my_info_txt">
-        <p id="my_name" class="my_name" />
-      </div>
+  <div class="my_info cf">
+    <div class="my_info_txt">
+      <el-button class="btn_ora" style="float: right" round @click="handleUpdate">修改</el-button>
+      <ul class="mytab_list">
+        <li><i class="tit">我的头像</i><img class="user_big_head" alt="我的头像" :src="user.avatar"></li>
+        <li><i class="tit">我的昵称</i>{{ user.username }}</li>
+        <li><i class="tit">性别</i>{{ user.sex | getDictLabel(dicts.sexMap) }}</li>
+        <li><i class="tit">邮箱</i>{{ user.email }}</li>
+        <li><i class="tit">手机号</i>{{ user.mobile }}</li>
+      </ul>
     </div>
-    <div class="my_bookshelf">
-      <div class="title cf">
-        <h4 class="fl">
-          我的书架</h4>
-        <a href="/user/favorites.html" class="fr">全部收藏 &gt;</a>
-      </div>
-      <div class="updateTable">
-        <table cellpadding="0" cellspacing="0">
-          <thead>
-            <tr>
-              <th class="style">
-                类别
-              </th>
-              <th class="name">
-                书名
-              </th>
-              <th class="chapter">
-                最新章节
-              </th>
-              <th class="time">
-                更新时间
-              </th>
-              <th class="goread">
-                书签
-              </th>
-            </tr>
-          </thead>
-          <tbody id="bookShelfList" />
-        </table>
-      </div>
-    </div>
+    <data-form-dlg :visible.sync="dialogFormVisible" :dataform="user" @msubmit="msubmit" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import { dicts, getDictLabel } from '@/dicts'
+import { getUser, editUser } from '@/api/user'
+import DataFormDlg from './DataFormDlg'
+
 export default {
+  components: { DataFormDlg },
+  filters: {
+    getDictLabel: getDictLabel
+  },
+  data() {
+    return {
+      dicts,
+      user: {},
+
+      dialogFormVisible: false
+    }
+  },
   computed: {
     ...mapGetters([
-      'avatar',
-      'name'
+      'token',
+      'id'
     ])
+  },
+  created() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      getUser(this.id).then(res => {
+        this.user = Object.assign({}, res.data)
+      })
+    },
+    handleUpdate() {
+      this.dialogFormVisible = true
+    },
+    msubmit(tempData) {
+      console.log('父组件', JSON.stringify(tempData))
+      // 修改
+      editUser(tempData).then(res => {
+        // const index = this.list.findIndex(v => v.id === tempData.id)
+        // this.list.splice(index, 1, tempData)
+        this.dialogFormVisible = false
+        this.getData()
+        this.$notify({
+          title: 'Success',
+          message: '修改成功',
+          type: 'success',
+          duration: 2000
+        })
+      })
+    }
   }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  @import "~@/assets/css/base.css";
+  @import "~@/assets/css/user.css";
 </style>

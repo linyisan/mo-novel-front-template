@@ -53,6 +53,7 @@
           </template>
         </el-table-column>
       </el-table>
+      <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
       <div id="shellPage" class="pageBox cf" />
     </div>
   </div>
@@ -62,7 +63,9 @@
 import { deleteBookshelf, editBookshelf, searchBookshelf } from '@/api/bookshelf'
 import { dicts, getDictLabel } from '@/dicts'
 import { mapGetters } from 'vuex'
+import Pagination from '@/components/Pagination'
 export default {
+  components: { Pagination },
   filters: {
     getDictLabel: getDictLabel
   },
@@ -84,10 +87,10 @@ export default {
     ])
   },
   created() {
-    this.getData()
+    this.getList()
   },
   methods: {
-    getData() {
+    getList() {
       this.listLoading = true
       searchBookshelf(this.listQuery).then(response => {
         this.list = response.data.items
