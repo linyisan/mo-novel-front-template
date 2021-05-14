@@ -95,8 +95,7 @@ export default {
   components: { Pagination },
   props: {
     bookId: {
-      require: true,
-      type: String
+      require: true
     }
   },
   data() {

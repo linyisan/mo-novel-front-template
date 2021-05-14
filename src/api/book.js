@@ -14,3 +14,24 @@ export function getBook(id) {
     method: 'get'
   })
 }
+
+export function listClickRank() {
+  return request({
+    url: '/book/listClickRank',
+    method: 'get'
+  })
+}
+
+export function listNewRank() {
+  return request({
+    url: '/book/listNewRank',
+    method: 'get'
+  })
+}
+
+export function listUpdateRank() {
+  return request({
+    url: '/book/listUpdateRank',
+    method: 'get'
+  })
+}

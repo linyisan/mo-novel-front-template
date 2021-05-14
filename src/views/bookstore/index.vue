@@ -107,7 +107,7 @@
           <el-table-column label="序号" align="center" width="65px">
             <template slot-scope="scope">
               <!--              <span class="rank">{{ scope.row.id }}</span>-->
-              <el-tag type="info">{{ scope.row.id }}</el-tag>
+              <el-tag type="info">{{ scope.$index+1 }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column label="类别" align="center" width="100px">

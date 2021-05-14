@@ -47,7 +47,15 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/book/bookstore'
+    redirect: '/home',
+    children: [
+      {
+        path: 'home',
+        component: () => import('@/views/home'),
+        meta: { title: '首页' }
+      }
+
+    ]
   },
 
   {
@@ -73,7 +81,7 @@ export const constantRoutes = [
         path: 'bookstore',
         name: 'BookStore',
         component: () => import('@/views/bookstore/index'),
-        meta: { title: '书库', icon: 'el-icon-sunset' }
+        meta: { title: '书库', icon: 'el-icon-s-management' }
       },
       {
         path: 'bookindex/:bookId',

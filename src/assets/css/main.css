@@ -85,7 +85,7 @@
 .updateTable .chapter { padding-right: 5px }
 .updateTable .chapter a { max-width: 200px; float: left; color: #666 }
 .updateTable .author { width: 82px; text-align: left }
-.updateTable .time { width: 82px; text-align: center }
+.updateTable .time { width: 100px; text-align: center }
 .updateTable .word { width: 60px; padding-right: 10px; text-align: right }
 .updateTable .rank { width: 2.5em; padding-right: 10px; text-align: center }
 .updateTable .name a, .updateTable .chapter a, .updateTable .author a { height: 41px; line-height: 41px; display: inline-block; overflow: hidden }
@@ -240,6 +240,6 @@
 
 
 .hot_notice span, .items_txt .intro a, .updateTable .author a, .updateTable .style a, .updateTable .time a, .updateTable th { color: #888 }
-.items_txt .intro a:hover, .rightList .more a:hover, .updateTable .style a:hover, .rightList .on .book_intro .txt:hover { color: #f70 }
+.items_txt .intro a:hover, .rightList .more a:hover, .updateTable .style a:hover, .rightList .on .book_intro .txt:hover { color: #4a90e2 } /*LJohn #f70*/
 .icon_show:hover, .icon_hide:hover { color: #2972cc }
 .channelChapterlist { min-height: 600px }
