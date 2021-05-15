@@ -4,9 +4,14 @@
     <div class="channelWrap channelBanner cf">
       <div class="leftBox">
         <div class="sliderContent">
-          <dl id="carouseBig" class="scBigImg" />
+          <dl id="carouseBig" class="scBigImg">
+            <dd v-for="(item, index) in bookSettings.carouselList" :key="item.id" :class="{on: index===carousel.showIndex}"><router-link target="_blank" :to="{name: 'BookDetail', params:{bookId: item.bookId}}"><img :src="item.book.cover" :alt="item.book.title"></router-link></dd>
+            <!--            <dd v-if="carousel.showBook" class="on"><router-link :to="{name: 'BookDetail', params:{bookId: carousel.showBook.id}}"><img :src="carousel.showBook.cover" :alt="carousel.showBook.title"></router-link></dd>-->
+          </dl>
           <div id="carouseSmall" class="scSmallImg">
-            <ul />
+            <ul>
+              <li @mouseenter="stop(index)" @mouseleave="start" v-for="(item, index) in bookSettings.carouselList" :key="item.id" :class="{on: index===carousel.showIndex}"><img :src="item.book.cover" :alt="item.book.title"> </li>
+            </ul>
           </div>
         </div>
         <div class="hot_articles">
@@ -20,7 +25,18 @@
           <h3>本周强推</h3>
         </div>
         <div class="rightList">
-          <ul id="currentWeek" />
+          <!--TODO: 本周强推-->
+          <ul id="currentWeek">
+            <li v-for="(item, index) in bookSettings.carouselList" :key="item.id" :class="addRankListClass(index)">
+              <router-link :to="{name: 'BookDetail', params: {bookId: item.book.id}}">
+                <div class="book_name"><i>{{ index+1 }}</i>{{ item.book.title }}</div>
+                <div v-if="index===0" class="book_intro">
+                  <div class="cover"><img :src="item.book.cover"> </div>
+                  <span class="txt">{{ item.book.introduction }}</span>
+                </div>
+              </router-link>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -32,7 +48,19 @@
         <div class="title">
           <h2 class="on">热门推荐</h2>
         </div>
-        <div id="hotRecBooks" class="picRecommend cf" />
+        <div id="hotRecBooks" class="picRecommend cf">
+          <!--TODO: 热门推荐-->
+          <div v-for="item in bookSettings.carouselList" :key="item.id" class="itemsList">
+            <router-link target="_blank" :to="{name: 'BookDetail', params:{bookId: item.book.id}}">
+              <span class="items_img"><img class="lazyload" :src="item.book.cover" :alt="item.book.title"></span>
+              <div class="items_txt">
+                <h4>{{ item.book.title }}</h4>
+                <p class="author">作者：{{ item.book.authorName }}</p>
+                <p class="intro">{{ item.book.introduction }}</p>
+              </div>
+            </router-link>
+          </div>
+        </div>
       </div>
       <div id="bookrank1_ShowBookRank">
         <div class="rightBox ">
@@ -42,7 +70,7 @@
           <div class="rightList">
             <ul id="clickRankBooks">
               <li v-for="(item, index) in clickRankList" :key="item.id" :class="addRankListClass(index)">
-                <router-link :to="{name: 'BookDetail', params: {bookId: item.id}}">
+                <router-link target="_blank" :to="{name: 'BookDetail', params: {bookId: item.id}}">
                   <div class="book_name"><i>{{ index+1 }}</i>{{ item.title }}</div>
                   <div v-if="index===0" class="book_intro">
                     <div class="cover"><img :src="item.cover"> </div>
@@ -64,7 +92,19 @@
         <div class="title">
           <h2>精品推荐</h2>
         </div>
-        <div id="classicBooks" class="picRecommend cf" />
+        <div id="classicBooks" class="picRecommend cf">
+          <!--TODO: 精品推荐-->
+          <div v-for="item in bookSettings.carouselList" :key="item.id" class="itemsList">
+            <router-link target="_blank" :to="{name: 'BookDetail', params:{bookId: item.book.id}}">
+              <span class="items_img"><img class="lazyload" :src="item.book.cover" :alt="item.book.title"></span>
+              <div class="items_txt">
+                <h4>{{ item.book.title }}</h4>
+                <p class="author">作者：{{ item.book.authorName }}</p>
+                <p class="intro">{{ item.book.introduction }}</p>
+              </div>
+            </router-link>
+          </div>
+        </div>
       </div>
       <div id="bookrank2_ShowBookRank">
         <div class="rightBox ">
@@ -74,7 +114,7 @@
           <div class="rightList">
             <ul id="newRankBooks">
               <li v-for="(item, index) in newRankList" :key="item.id" :class="addRankListClass(index)">
-                <router-link :to="{name: 'BookDetail', params: {bookId: item.id}}">
+                <router-link target="_blank" :to="{name: 'BookDetail', params: {bookId: item.id}}">
                   <div class="book_name"><i>{{ index+1 }}</i>{{ item.title }}</div>
                   <div v-if="index===0" class="book_intro">
                     <div class="cover"><img :src="item.cover"> </div>
@@ -110,7 +150,7 @@
             <tbody id="newRankBooks2">
               <tr v-for="item in updateRankList" :key="item.id">
                 <td class="style">[{{ item.categoryId | getDictLabel(dicts.categoryMap) }}]</td>
-                <td class="name"><router-link :to="{name: 'BookDetail', params:{bookId: item.id}}">{{ item.title }}</router-link></td>
+                <td class="name"><router-link target="_blank" :to="{name: 'BookDetail', params:{bookId: item.id}}">{{ item.title }}</router-link></td>
                 <td class="chapter">
                   <span v-if="!item.lastBookIndex">无</span>
                   <router-link v-else :to="{name: 'BookContent', params:{bookId: item.id, bookIndexId: item.lastBookIndex.id}}">{{ item.lastBookIndex.title }}</router-link>
@@ -130,7 +170,7 @@
           <div class="rightList">
             <ul id="updateRankBooks">
               <li v-for="(item, index) in updateRankList" :key="item.id" :class="addRankListClass(index)">
-                <router-link :to="{name: 'BookDetail', params: {bookId: item.id}}">
+                <router-link target="_blank" :to="{name: 'BookDetail', params: {bookId: item.id}}">
                   <div class="book_name"><i>{{ index+1 }}</i>{{ item.title }}</div>
                   <div v-if="index===0" class="book_intro">
                     <div class="cover"><img :src="item.cover"> </div>
@@ -150,6 +190,7 @@
 
 <script>
 import { listClickRank, listNewRank, listUpdateRank } from '@/api/book'
+import { getAllBookSetting } from '@/api/bookSetting'
 import { dicts, getDictLabel } from '@/dicts'
 
 export default {
@@ -162,13 +203,27 @@ export default {
       listLoading: true,
       clickRankList: [],
       newRankList: [],
-      updateRankList: []
+      updateRankList: [],
+      bookSettings: {
+        carouselList: [], // 轮播图
+        topList: [], // 顶部小说
+        weekRecList: [], // 本周强推
+        hotRecList: [], // 热门推荐
+        classicList: [] // 精品推荐
+      },
+
+      carousel: { // 轮播图相关变量
+        showIndex: 0, // 显示第几个图片
+        timer: null, // 定时器
+        delay: 2000 // 切换时间
+      }
     }
   },
   computed: {
   },
   created() {
     this.init()
+    this.start()
   },
   methods: {
     init() {
@@ -185,6 +240,13 @@ export default {
       listUpdateRank().then(res => {
         this.updateRankList = res.data
       })
+      getAllBookSetting().then(res => {
+        this.bookSettings.carouselList = res.data[0]
+        this.bookSettings.topList = res.data[1]
+        this.bookSettings.weekRecList = res.data[2]
+        this.bookSettings.hotRecList = res.data[3]
+        this.bookSettings.classicList = res.data[4]
+      })
       this.listLoading = false
     },
     addRankListClass(index) {
@@ -192,7 +254,27 @@ export default {
       if (index === 0) tmpClass.push('on')
       if (index < 3) tmpClass.push('num' + (index + 1))
       return tmpClass
+    },
+
+    // 轮播图 start
+    next() {
+      if (this.carousel.showIndex >= this.bookSettings.carouselList.length - 1) {
+        this.carousel.showIndex = 0
+      } else {
+        this.carousel.showIndex++
+      }
+    },
+    start() {
+      clearInterval(this.carousel.timer)
+      this.carousel.timer = setInterval(() => {
+        this.next()
+      }, this.carousel.delay)
+    },
+    stop(index) {
+      clearInterval(this.carousel.timer)
+      this.carousel.showIndex = index
     }
+    // 轮播图 end
   }
 }
 </script>

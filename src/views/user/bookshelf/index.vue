@@ -69,6 +69,11 @@ export default {
   filters: {
     getDictLabel: getDictLabel
   },
+  computed: {
+    ...mapGetters([
+      'id'
+    ])
+  },
   data() {
     return {
       dicts,
@@ -77,14 +82,10 @@ export default {
       total: 0,
       listQuery: {
         page: 1,
-        limit: 20
+        limit: 20,
+        userId: this.id
       }
     }
-  },
-  computed: {
-    ...mapGetters([
-      'id'
-    ])
   },
   created() {
     this.getList()

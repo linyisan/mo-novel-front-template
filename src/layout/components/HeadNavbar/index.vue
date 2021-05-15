@@ -45,7 +45,8 @@
         <span v-else>
           <router-link to="/login" style="color: white">登录</router-link>
           <el-divider direction="vertical" />
-          <router-link to="/register" style="color: white">注册</router-link>
+          <a style="color: white" @click="handleRegister">注册</a>
+          <register :visible.sync="dialogFormVisible" />
         </span>
       </div>
       <!--头像 end-->
@@ -58,9 +59,10 @@ import { mapGetters } from 'vuex'
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
+import Register from '@/components/Register'
 
 export default {
-  components: { SidebarItem, Logo },
+  components: { SidebarItem, Logo, Register },
   computed: {
     ...mapGetters([
       'sidebar',
@@ -96,11 +98,19 @@ export default {
       return !this.sidebar.opened
     }
   },
+  data() {
+    return {
+      dialogFormVisible: false
+    }
+  },
   methods: {
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(this.$route.path)
       // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    handleRegister() {
+      this.dialogFormVisible = true
     }
   }
 }
