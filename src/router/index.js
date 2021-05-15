@@ -136,6 +136,7 @@ export const constantRoutes = [
           {
             path: 'feedback',
             name: 'Feedback',
+            component: () => import('@/views/user/feedback'),
             meta: { requireAuth: true, title: '我的反馈' }
           },
           {

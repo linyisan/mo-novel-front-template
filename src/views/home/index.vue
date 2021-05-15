@@ -10,7 +10,7 @@
           </dl>
           <div id="carouseSmall" class="scSmallImg">
             <ul>
-              <li @mouseenter="stop(index)" @mouseleave="start" v-for="(item, index) in bookSettings.carouselList" :key="item.id" :class="{on: index===carousel.showIndex}"><img :src="item.book.cover" :alt="item.book.title"> </li>
+              <li v-for="(item, index) in bookSettings.carouselList" :key="item.id" :class="{on: index===carousel.showIndex}" @mouseenter="stop(index)" @mouseleave="start"><img :src="item.book.cover" :alt="item.book.title"> </li>
             </ul>
           </div>
         </div>
@@ -25,9 +25,8 @@
           <h3>本周强推</h3>
         </div>
         <div class="rightList">
-          <!--TODO: 本周强推-->
           <ul id="currentWeek">
-            <li v-for="(item, index) in bookSettings.carouselList" :key="item.id" :class="addRankListClass(index)">
+            <li v-for="(item, index) in bookSettings.weekRecList" :key="item.id" :class="addRankListClass(index)">
               <router-link :to="{name: 'BookDetail', params: {bookId: item.book.id}}">
                 <div class="book_name"><i>{{ index+1 }}</i>{{ item.book.title }}</div>
                 <div v-if="index===0" class="book_intro">
@@ -49,8 +48,7 @@
           <h2 class="on">热门推荐</h2>
         </div>
         <div id="hotRecBooks" class="picRecommend cf">
-          <!--TODO: 热门推荐-->
-          <div v-for="item in bookSettings.carouselList" :key="item.id" class="itemsList">
+          <div v-for="item in bookSettings.hotRecList" :key="item.id" class="itemsList">
             <router-link target="_blank" :to="{name: 'BookDetail', params:{bookId: item.book.id}}">
               <span class="items_img"><img class="lazyload" :src="item.book.cover" :alt="item.book.title"></span>
               <div class="items_txt">
@@ -93,8 +91,7 @@
           <h2>精品推荐</h2>
         </div>
         <div id="classicBooks" class="picRecommend cf">
-          <!--TODO: 精品推荐-->
-          <div v-for="item in bookSettings.carouselList" :key="item.id" class="itemsList">
+          <div v-for="item in bookSettings.classicList" :key="item.id" class="itemsList">
             <router-link target="_blank" :to="{name: 'BookDetail', params:{bookId: item.book.id}}">
               <span class="items_img"><img class="lazyload" :src="item.book.cover" :alt="item.book.title"></span>
               <div class="items_txt">

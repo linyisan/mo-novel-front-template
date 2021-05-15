@@ -1,9 +1,10 @@
 // 静态数据字典
 var dicts = {
+  doneMap: [{ value: '0', label: '未处理' }, { value: '1', label: '已处理' }],
   sexMap: [{ value: '0', label: '男' }, { value: '1', label: '女' }],
   readingProcess: [{ value: 1, label: '正在追看' }, { value: 2, label: '养肥待读' }, { value: 3, label: '已经看过' }],
-  categoryMap: [{ value: 1, label: '玄幻奇幻' }, { value: 3, label: '武侠仙侠' }, { value: 4, label: '都市言情'
-  }, { value: 5, label: '历史军事' }, { value: 6, label: '科幻灵异' }, { value: 7, label: '网游竞技' }],
+  categoryMap: [{ value: 1, label: '玄幻奇幻' }, { value: 2, label: '武侠仙侠' }, { value: 3, label: '都市言情'
+  }, { value: 4, label: '历史军事' }, { value: 5, label: '科幻灵异' }, { value: 6, label: '网游竞技' }],
   channelMap: [{ label: '男频', value: '0' }, { label: '女频', value: '1' }],
   bookStatusMap: [{ label: '连载中', value: '1' }, { label: '已完结', value: '2' }],
   wordCountMap: [{ label: '30万字以下', value: JSON.stringify({ 'wordCountMin': null, 'wordCountMax': 300000 }) },

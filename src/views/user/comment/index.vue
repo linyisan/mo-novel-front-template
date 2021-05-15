@@ -27,7 +27,7 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
     <data-form-dlg :visible.sync="dialogFormVisible" :dataform="temp" @msubmit="msubmit" />
 
-<!--    <div class="bookComment">
+    <!--    <div class="bookComment">
       <div class="no_contet no_comment" style="display:none">
         您还没有发表过评论！
       </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { searchBookComment, editBookComment, deleteBookComment, addBookComment } from '@/api/comment'
+import { searchBookComment, editBookComment, deleteBookComment } from '@/api/comment'
 import { editRating } from '@/api/rating'
 import { mapGetters } from 'vuex'
 import DataFormDlg from './DataFormDlg'
@@ -108,7 +108,15 @@ export default {
       })
     },
     handleDelete(commentId) {
-      deleteBookComment(commentId).then(_ => { this.getList() })
+      deleteBookComment(commentId).then(_ => {
+        this.getList()
+        this.$notify({
+          title: 'Success',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+      })
     }
   }
 }
