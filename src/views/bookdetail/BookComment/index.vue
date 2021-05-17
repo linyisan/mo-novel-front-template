@@ -19,6 +19,7 @@
               <img :src="comment.userInfoVo.avatar" class="user_head">
             </div>
             <ul class="pl_bar fr">
+              <li class="fr"><el-rate :value="comment.star" disabled/></li>
               <li class="name">{{ comment.userInfoVo.name }}</li>
               <li class="dec">{{ comment.content }}</li>
               <li class="other cf">

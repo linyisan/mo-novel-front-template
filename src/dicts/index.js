@@ -1,5 +1,6 @@
 // 静态数据字典
 var dicts = {
+  bookSettingTypeMap: [{ value: '1', label: '轮播图' }, { value: '2', label: '本周强推' }, { value: '3', label: '热门推荐' }, { value: '4', label: '精品推荐' }],
   doneMap: [{ value: '0', label: '未处理' }, { value: '1', label: '已处理' }],
   sexMap: [{ value: '0', label: '男' }, { value: '1', label: '女' }],
   readingProcess: [{ value: 1, label: '正在追看' }, { value: 2, label: '养肥待读' }, { value: 3, label: '已经看过' }],

@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { updatePwd } from '@/api/user'
+import {logout, updatePwd} from '@/api/user'
 import DataFormDlg from './DataFormDlg'
 
 export default {

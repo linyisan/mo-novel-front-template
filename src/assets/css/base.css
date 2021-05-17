@@ -78,7 +78,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #
 .topMain { height: 92px; background: #fff; overflow: hidden }
 .logo { width: 198px; float: left; padding: 23px 130px 0 0; display: block }
 .logo img { width: auto; height: 48px }
-.searchBar { width: 342px; margin-top: 27px; overflow: hidden }
+.searchBar { width: 342px; overflow: hidden } /*LJohn margin-top: 27px; */
 .searchBar .search/*, .searchBar .hotword*/ { width: 342px; overflow: hidden }
 .searchBar .s_int { width: 250px; padding: 0 14px 0 18px; height: 36px; line-height: 36px\9; vertical-align: middle; border: 1px solid #0066ff; border-right: none; color: #333; float: left; border-radius: 20px 0 0 20px; font-size: 14px; /*background: #fff;*/ background: 0 0 }
 /*.searchBar .s_btn { width: 78px; height: 38px; line-height: 38px; background: #f65167; color: #fff; font-size: 16px; text-align: center; float: left; cursor: pointer; padding: 0 }

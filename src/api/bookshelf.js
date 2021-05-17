@@ -38,3 +38,9 @@ export function deleteBookshelf(id) {
   })
 }
 
+export function recommandByCategoriesPercent(id) {
+  return request({
+    url: `/bookshelf/recommandByCategoriesPercent/${id}`,
+    method: 'get'
+  })
+}

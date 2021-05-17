@@ -10,7 +10,7 @@
           label-width="85px"
           label-position="left"
         >
-          <el-col :span="13">
+          <el-col :span="17">
             <el-form-item label="用户名" prop="username">
               <el-input
                 v-model="tempFormData.username"
@@ -20,7 +20,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="13">
+          <el-col :span="17">
             <el-form-item label="密码" prop="password">
               <el-input
                 v-model="tempFormData.password"
@@ -63,6 +63,10 @@ export default {
           required: true,
           message: '请输入密码',
           trigger: 'blur'
+        }, {
+          trigger: 'blur',
+          pattern: /(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{8,}/,
+          message: '密码中必须包含大小字母、数字，至少8个字符'
         }]
       }
     }

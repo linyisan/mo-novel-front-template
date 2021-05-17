@@ -15,9 +15,16 @@
           </div>
         </div>
         <div class="hot_articles">
+          <div class="title cf">
+            <h3 style="font-size: 20px; font-weight: 600">站内消息</h3>
+          </div>
           <dl id="topBooks1" class="hot_recommend" />
+          <dl id="indexNews" class="hot_notice">
+            <dd v-for="item in noticeList" :key="item.id" style="text-align: left">
+              <router-link to="#">{{ item.title }}</router-link>
+            </dd>
+          </dl>
           <dl id="topBooks2" class="hot_recommend" />
-          <dl id="indexNews" class="hot_notice" />
         </div>
       </div>
       <div class="rightBox">
@@ -166,7 +173,7 @@
           </div>
           <div class="rightList">
             <ul id="updateRankBooks">
-              <li v-for="(item, index) in updateRankList" :key="item.id" :class="addRankListClass(index)">
+              <li v-for="(item, index) in updateRankUnderTen" :key="item.id" :class="addRankListClass(index)">
                 <router-link target="_blank" :to="{name: 'BookDetail', params: {bookId: item.id}}">
                   <div class="book_name"><i>{{ index+1 }}</i>{{ item.title }}</div>
                   <div v-if="index===0" class="book_intro">
@@ -187,6 +194,7 @@
 
 <script>
 import { listClickRank, listNewRank, listUpdateRank } from '@/api/book'
+import { searchNotice, getNotice } from '@/api/notice'
 import { getAllBookSetting } from '@/api/bookSetting'
 import { dicts, getDictLabel } from '@/dicts'
 
@@ -198,6 +206,7 @@ export default {
     return {
       dicts,
       listLoading: true,
+      noticeList: [],
       clickRankList: [],
       newRankList: [],
       updateRankList: [],
@@ -217,6 +226,9 @@ export default {
     }
   },
   computed: {
+    updateRankUnderTen() {
+      return this.updateRankList.filter((item, index) => index < 10)
+    }
   },
   created() {
     this.init()
@@ -238,11 +250,14 @@ export default {
         this.updateRankList = res.data
       })
       getAllBookSetting().then(res => {
-        this.bookSettings.carouselList = res.data[0]
-        this.bookSettings.topList = res.data[1]
+        this.bookSettings.carouselList = res.data[1]
+        // this.bookSettings.topList = res.data[1]
         this.bookSettings.weekRecList = res.data[2]
         this.bookSettings.hotRecList = res.data[3]
         this.bookSettings.classicList = res.data[4]
+      })
+      searchNotice({ limit: 5 }).then(res => {
+        this.noticeList = res.data.items
       })
       this.listLoading = false
     },

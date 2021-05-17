@@ -21,13 +21,13 @@
                   title="返回详情页"
                 ><b>详情页</b></router-link>
               </li>
-              <li id="cFavs" class="li_shelf"><a class="ico_shelf" href="javascript:void(0);"><b>已收藏</b></a></li>
+              <!--              <li id="cFavs" class="li_shelf"><a class="ico_shelf" href="javascript:void(0);"><b>已收藏</b></a></li>
               <li class="li_shelfed" style="display: none;"><a
                 class="ico_shelfed"
                 href="javascript:void(0);"
                 title="已收藏"
               ><b>已收藏</b></a>
-              </li>
+              </li>-->
 
               <li>
                 <router-link
@@ -74,16 +74,16 @@
                   <router-link to="#">{{ book.categoryId | getDictLabel(dicts.categoryMap) }}</router-link>
                   作者：
                   <router-link to="#">{{ book.authorName }}</router-link>
-                  字数：<span>{{ book.wordCount }}</span>
+                  字数：<span>{{ bookIndex.wordCount }}</span>
                   更新时间：<span>{{ bookIndex.updateTime }}</span>
                 </div>
               </div>
 
               <div class="txtwrap">
-                <div
+                <pre
                   id="showReading"
                   class="readBox"
-                  :style="{fontFamily: readingSetting.fontFamily, fontSize: readingSetting.fontSize + 'px'}"
+                  :style="{ wordWrap: 'break-word', whiteSpace: 'pre-wrap', fontFamily: readingSetting.fontFamily, fontSize: readingSetting.fontSize + 'px'}"
                   v-html="bookIndex.content"
                 />
 
@@ -167,8 +167,8 @@ export default {
         this.listLoading = false
         this.bookIndex = Object.assign({}, res.data)
         if (this.bookIndex.content) {
-          this.bookIndex.content = this.bookIndex.content.replaceAll('    ', '&emsp;')
-          this.bookIndex.content = this.bookIndex.content.replaceAll('\r\n', '<br>')
+          /*          this.bookIndex.content = this.bookIndex.content.replaceAll('    ', '&emsp;')
+          this.bookIndex.content = this.bookIndex.content.replaceAll('\r\n', '<br>')*/
         }
       })
       getBook(this.listQuery.bookId).then(res => {

@@ -1,7 +1,7 @@
 <template>
   <el-main v-if="book" v-loading="loading">
     <div class="main box_center cf mb50">
-<!--      <h1>当前bookId:{{ $route.params.bookId }}</h1>-->
+      <!--      <h1>当前bookId:{{ $route.params.bookId }}</h1>-->
       <div class="nav_sub">
         > {{ book.categoryId | getDictLabel(dicts.categoryMap) }} > {{ book.title }}
         <!--        <a href="/" th:text="${application.website.name}"></a>&gt;<a th:href="'/book/bookclass.html?c='+${book.catId}" th:text="${book.catName}"></a>&gt;<a-->
@@ -20,7 +20,9 @@
               <li><span class="item">类别：{{ book.categoryId | getDictLabel(dicts.categoryMap) }}</span>
                 <span class="item">状态： {{ book.status | getDictLabel(dicts.bookStatusMap) }}</span>
                 <span class="item">总点击：{{ book.visitCount }}</span>
-                <span class="item">总字数：{{ book.wordCount }}</span></li>
+                <span class="item">总字数：{{ book.wordCount }}</span>
+                <span style="font-weight: 800;font-size: 20px;">评分：{{ book.score }}</span>
+              </li>
             </ul>
             <div class="intro_txt">
               <p>
@@ -54,7 +56,7 @@
               <div class="bookChapter">
                 <div class="book_tit">
                   <div class="fl">
-                    <h3>最新章节</h3><span id="bookIndexCount"></span></div>
+                    <h3>最新章节</h3><span id="bookIndexCount" /></div>
                   <router-link class="fr" :to="{name: 'BookIndex', params:{bookId: bookId}}">全部目录</router-link>
                 </div>
                 <ul class="list cf">
@@ -173,6 +175,7 @@ export default {
       searchBook({ categoryId: this.book.categoryId }).then(response => {
         this.recBookList = response.data.items
       })
+      this.$refs['btn_addBookShelf'].$el.innerText = '加入书架'
       searchBookshelf({ userId: this.id, bookId: this.bookId }).then(response => {
         const bookshelf = response.data.items[0]
         this.bookshelf = Object.assign({}, bookshelf)
@@ -190,10 +193,21 @@ export default {
       this.bookshelf.readingProcess = command
       this.bookshelf.bookId = this.bookId
       this.bookshelf.userId = this.id
-      if (!this.bookshelf.id) addBookshelf(this.bookshelf)
-      else if (command === 4) deleteBookshelf(this.bookshelf.id)
-      else editBookshelf(this.bookshelf)
-      this.getList()
+      let message = ''
+      if (!this.bookshelf.id) {
+        addBookshelf(this.bookshelf).then(_ => { message = '加入书架成功' })
+      } else if (command === 4) deleteBookshelf(this.bookshelf.id).then(_ => { message = '取消收藏成功' })
+      else editBookshelf(this.bookshelf).then(_ => { message = '修改阅读进度成功' })
+
+      this.$nextTick(_ => {
+        this.$notify({
+          title: 'Success',
+          message: message,
+          type: 'success',
+          duration: 2000
+        })
+        this.getList()
+      })
     }
   }
 }

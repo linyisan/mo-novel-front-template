@@ -52,7 +52,7 @@ export const constantRoutes = [
       {
         path: 'home',
         component: () => import('@/views/home'),
-        meta: { title: '首页' }
+        meta: { title: '首页', icon: 'el-icon-s-home' }
       }
 
     ]
@@ -94,8 +94,31 @@ export const constantRoutes = [
   },
 
   {
+    path: '/youlike',
+    component: Layout,
+    children: [{
+      path: 'index',
+      component: () => import('@/views/youlike/index'),
+      meta: { title: '猜你喜欢', icon: 'el-icon-s-help' }
+    }]
+  },
+
+  {
+    path: '/notice',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/notice/index'),
+        meta: { title: '站内消息', icon: 'el-icon-chat-dot-round' }
+      }
+    ]
+  },
+
+  {
     path: '/test',
     component: Layout,
+    hidden: true,
     redirect: '/test/index',
     children: [
       {
@@ -153,6 +176,7 @@ export const constantRoutes = [
   {
     path: '/example',
     component: Layout,
+    hidden: true,
     redirect: '/example/table',
     name: 'Example',
     meta: { title: 'Example', icon: 'el-icon-s-help' },
@@ -175,6 +199,7 @@ export const constantRoutes = [
   {
     path: '/form',
     component: Layout,
+    hidden: true,
     children: [
       {
         path: 'index',

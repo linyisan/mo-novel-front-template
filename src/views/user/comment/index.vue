@@ -96,7 +96,7 @@ export default {
         // const index = this.list.findIndex(v => v.id === tempData.id)
         // this.list.splice(index, 1, tempData)
       })
-      editRating({ id: tempData.rating.id, star: tempData.star }).then(_ => {
+      editRating({ id: tempData.rating.id, star: tempData.star, bookId: tempData.rating.bookId }).then(_ => {
         this.dialogFormVisible = false
         this.getList()
         this.$notify({

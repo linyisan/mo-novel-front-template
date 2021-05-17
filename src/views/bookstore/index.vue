@@ -2,6 +2,14 @@
   <div class="main box_center cf">
     <!--小说筛选区 start-->
     <div class="channelWrap classTable cf">
+      <div class="searchBar fr">
+        <div class="search">
+          <input id="searchKey" type="text" placeholder="书名、作者" class="s_int" name="searchKey" v-model="listQuery.keyword">
+          <label id="btnSearch" class="search_btn" @click="handleFilter"><i class="icon" /></label>
+        </div>
+        <div style="clear: both" />
+      </div>
+      <div style="clear: right"/>
       <div class="so_tag">
         <ul class="list">
           <li id="workDirection" class="so_pd">
@@ -69,10 +77,10 @@
           </li>
           <li class="so_sort">
             <filteritem
-              label="更新时间"
+              label="排序方式"
               first-item-text="不限"
               :list="dicts.sortMap"
-              @change="function(mvalue){listQuery.sort=mvalue; handleFilter()}"
+              @change="function(mvalue){listQuery.orderBy=mvalue; handleFilter()}"
             />
             <!--            <span class="tit">排序方式：</span>
             <a href="javascript:search(1,20)" class="on">不限</a>
@@ -168,7 +176,7 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        // keyword: null,
+        keyword: null,
         channel: null,
         categoryId: null,
         bookStatus: null,
@@ -176,7 +184,7 @@ export default {
         wordCountMax: null,
         // updateTimeMin: null,
         updatePeriod: null,
-        sort: null
+        orderBy: null
       },
       dicts: dicts
     }
