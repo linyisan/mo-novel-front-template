@@ -19,7 +19,9 @@
               <img :src="comment.userInfoVo.avatar" class="user_head">
             </div>
             <ul class="pl_bar fr">
-              <li class="fr"><el-rate :value="comment.star" disabled/></li>
+              <li class="fr">
+                <el-rate :value="comment.star" disabled />
+              </li>
               <li class="name">{{ comment.userInfoVo.name }}</li>
               <li class="dec">{{ comment.content }}</li>
               <li class="other cf">
@@ -33,7 +35,13 @@
         <!--        <div v-if="total>0" id="moreCommentPanel" class="more_bar">
           <a href="'/book/comment-'+${book.id}+'.html'">查看全部评论&gt;</a>
         </div>-->
-        <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+        <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="listQuery.page"
+          :limit.sync="listQuery.limit"
+          @pagination="getList"
+        />
         <el-divider />
         <div id="reply_bar" class="reply_bar">
 
@@ -57,7 +65,8 @@
                 <span class="font16">发表评论</span>
               </div>
               <el-form-item prop="star">
-                本书评分：<el-rate v-model="temp.star" />
+                本书评分：
+                <el-rate v-model="temp.star" />
               </el-form-item>
             </el-row>
             <el-form-item prop="content">
@@ -92,6 +101,7 @@ import { mapGetters } from 'vuex'
 import { searchBookComment, addBookComment } from '@/api/comment'
 import { addRating } from '@/api/rating'
 import { MessageBox } from 'element-ui'
+
 export default {
   components: { Pagination },
   props: {
@@ -138,7 +148,7 @@ export default {
       else return true
     }
   },
-  created() {
+  mounted() {
     this.getList()
   },
   methods: {
@@ -150,7 +160,7 @@ export default {
         this.total = response.data.total
       })
     },
-    handleCreateComment() {
+    async handleCreateComment() {
       this.$refs['dataForm'].validate(valid => {
         if (!valid) return
         if (!this.isLogin) {
@@ -161,10 +171,17 @@ export default {
           })
           return false
         }
-        addRating({ userId: this.id, bookId: this.bookId, star: this.temp.star }).then(_ => {})
-        addBookComment({ userId: this.id, resourceId: this.bookId, content: this.temp.content, star: this.temp.star }).then(_ => {
-          this.getList()
+        addRating({ userId: this.id, bookId: this.bookId, star: this.temp.star }).then(_ => {
+          addBookComment({
+            userId: this.id,
+            resourceId: this.bookId,
+            content: this.temp.content,
+            star: this.temp.star
+          }).then(_ => {
+            this.getList()
+          })
         })
+
         this.temp.content = ''
         this.temp.star = 0
       })

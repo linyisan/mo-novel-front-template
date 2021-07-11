@@ -3,6 +3,15 @@
     <div class="title cf">
       <h2 class="fl"><a href="javascript:void(0);" class="red">我的书架</a></h2><i class="fl ml20 mr20 font16">|</i>
       <!--      <h2 class="fl"><a href="/user/read_history.html">最近阅读</a></h2>-->
+      <el-select class="fr" style="width: 120px" v-model="listQuery.readingProcess" placeholder="状态" clearable @change="getList">
+        <el-option
+          v-for="(item, index) in dicts.readingProcess"
+          :key="index"
+          :label="item.label"
+          :value="item.value"
+          :disabled="item.disabled"
+        />
+      </el-select>
     </div>
 
     <div id="divData" class="updateTable">
@@ -39,6 +48,12 @@
             <router-link v-else :to="{name: 'BookContent', params: {bookId: scope.row.bookId, bookIndexId: scope.row.readingHistoryId}}">继续阅读</router-link>
           </template>
         </el-table-column>
+        <el-table-column label="阅读状态" align="center" width="85px">
+          <template slot-scope="scope">
+            <span>{{ scope.row.readingProcess | getDictLabel(dicts.readingProcess) }}</span>
+          </template>
+        </el-table-column>
+
         <el-table-column align="center" width="50px">
           <template slot-scope="scope">
             <el-dropdown trigger="click" @command="command=>handleReadingProcess(command,scope.row)">

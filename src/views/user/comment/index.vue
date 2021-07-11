@@ -21,7 +21,7 @@
         <el-button>👎🏼</el-button>
         <el-button>51个评论</el-button>-->
         <el-button size="mini" type="primary" @click="handleUpdate(item)">修改</el-button>
-        <el-button size="mini" type="danger" @click="handleDelete(item.id)">删除</el-button>
+        <el-button size="mini" type="danger" @click="handleDelete(item.id, item.rating.id)">删除</el-button>
       </div>
     </el-card>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
@@ -39,7 +39,7 @@
 
 <script>
 import { searchBookComment, editBookComment, deleteBookComment } from '@/api/comment'
-import { editRating } from '@/api/rating'
+import { editRating, deleteRating } from '@/api/rating'
 import { mapGetters } from 'vuex'
 import DataFormDlg from './DataFormDlg'
 import Pagination from '@/components/Pagination'
@@ -107,14 +107,16 @@ export default {
         })
       })
     },
-    handleDelete(commentId) {
+    handleDelete(commentId, ratingId) {
       deleteBookComment(commentId).then(_ => {
-        this.getList()
-        this.$notify({
-          title: 'Success',
-          message: '删除成功',
-          type: 'success',
-          duration: 2000
+        deleteRating(ratingId).then(_ => {
+          this.getList()
+          this.$notify({
+            title: 'Success',
+            message: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
         })
       })
     }

@@ -33,8 +33,8 @@
             <div id="optBtn" class="btns">
               <a href="bookcontent" class="btn_ora">点击阅读</a>
               <el-dropdown trigger="click" @command="handleReadingProcess">
-                <el-button ref="btn_addBookShelf" type="primary" round>
-                  加入书架<i class="el-icon-arrow-down el-icon--right" />
+                <el-button type="primary" round>
+                  {{txt_btn_addBookShelf}}<i class="el-icon-arrow-down el-icon--right" />
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item v-for="item in dicts.readingProcess" :key="item.value" :command="item.value">{{ item.label }}</el-dropdown-item>
@@ -146,6 +146,7 @@ export default {
       dicts,
       recBookList: null,
       commentReplyList: null,
+      txt_btn_addBookShelf: '加入书架',
       total: 0
     }
   },
@@ -172,16 +173,19 @@ export default {
   },
   methods: {
     getList() {
+      this.listLoading = true
       searchBook({ categoryId: this.book.categoryId }).then(response => {
         this.recBookList = response.data.items
       })
-      this.$refs['btn_addBookShelf'].$el.innerText = '加入书架'
+      // console.log(this.$refs['btn_addBookShelf'])
+      this.txt_btn_addBookShelf = '加入书架'
       searchBookshelf({ userId: this.id, bookId: this.bookId }).then(response => {
         const bookshelf = response.data.items[0]
         this.bookshelf = Object.assign({}, bookshelf)
         this.bookshelf.readingProcess = bookshelf ? bookshelf.readingProcess : 0
-        if (this.bookshelf.readingProcess < 1) this.$refs['btn_addBookShelf'].$el.innerText = '加入书架'
-        else this.$refs['btn_addBookShelf'].$el.innerText = getDictLabel(this.bookshelf.readingProcess, dicts.readingProcess)
+        if (this.bookshelf.readingProcess < 1) this.txt_btn_addBookShelf = '加入书架'
+        else this.txt_btn_addBookShelf = getDictLabel(this.bookshelf.readingProcess, dicts.readingProcess)
+        this.listLoading = false
       })
     },
     handleReadingProcess(command) {
@@ -193,21 +197,19 @@ export default {
       this.bookshelf.readingProcess = command
       this.bookshelf.bookId = this.bookId
       this.bookshelf.userId = this.id
-      let message = ''
       if (!this.bookshelf.id) {
-        addBookshelf(this.bookshelf).then(_ => { message = '加入书架成功' })
-      } else if (command === 4) deleteBookshelf(this.bookshelf.id).then(_ => { message = '取消收藏成功' })
-      else editBookshelf(this.bookshelf).then(_ => { message = '修改阅读进度成功' })
-
-      this.$nextTick(_ => {
-        this.$notify({
-          title: 'Success',
-          message: message,
-          type: 'success',
-          duration: 2000
-        })
-        this.getList()
+        addBookshelf(this.bookshelf).then(_ => { this.noticeAfterRequest('加入书架成功') })
+      } else if (command === 4) deleteBookshelf(this.bookshelf.id).then(_ => { this.noticeAfterRequest('取消收藏成功')})
+      else editBookshelf(this.bookshelf).then(_ => { this.noticeAfterRequest('修改阅读进度成功') })
+    },
+    noticeAfterRequest(message) {
+      this.$notify({
+        title: 'Success',
+        message: message,
+        type: 'success',
+        duration: 2000
       })
+      this.getList()
     }
   }
 }
